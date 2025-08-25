@@ -1,0 +1,71 @@
+/* File: src/components/Login.css */
+
+/* Login page background */
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: Arial, sans-serif;
+}
+
+/* Login circle */
+.login-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+}
+
+.login-circle:hover {
+  transform: scale(1.1);
+}
+
+/* Login form */
+.login-form {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+}
+
+.login-form input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.login-form button {
+  padding: 10px 20px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background: #555;
+}
+
+/* Error message */
+.error-msg {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
