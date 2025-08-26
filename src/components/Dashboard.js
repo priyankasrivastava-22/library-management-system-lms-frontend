@@ -116,7 +116,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import bgImage from "./image/bg.jpg"; // same as login
-import TopBar from "./TopBar";
+// import TopBar from "./components/TopBar";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -146,8 +146,8 @@ export default function Dashboard() {
         }}
       />
 
-      {/* Top Bar */}
-      <TopBar />
+      {/* Top Bar
+      <TopBar /> */}
 
       {/* Content */}
       <div

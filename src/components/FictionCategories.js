@@ -10,8 +10,7 @@
 
 import React from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import TopBar from "./TopBar";
-import BackButton from "./BackButton";
+// import TopBar from "./components/TopBar";
 import Book from "./Book"; // Book card with dropdown
 import dashboardBg from "./image/dashboard-bg.jpg";
 import "./FictionPage.css"; // reuse styling
@@ -226,8 +225,8 @@ export default function FictionCategories() {
         position: "relative",
       }}
     >
-      {/* TopBar icons */}
-      <TopBar />
+      {/* TopBar icons
+      <TopBar /> */}
       <div className="fiction-overlay" />
 
       {/* Layout split: Left panel vs Right content */}
@@ -281,9 +280,6 @@ export default function FictionCategories() {
             )}
           </section>
         </div>
-
-        {/* Global back button */}
-        <BackButton />
       </div>
     </div>
   );

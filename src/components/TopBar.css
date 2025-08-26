@@ -1,0 +1,120 @@
+.topbar {
+  position: fixed; /* stay on top of background */
+  top: 20px;
+  right: 10px;
+  display: flex;
+  gap: 10px; /* space between icons */
+  z-index: 1000;
+}
+
+.topbar-item {
+  position: relative;
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* .topbar-item.profile {
+  margin-left: 2px; /* extra space from previous icon */
+
+
+/* Hover shows only name */
+.hover-name {
+  display: none;
+  font-size: 14px;
+  color: white;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.topbar-item:hover .hover-name {
+  display: inline-block;
+}
+
+/* Dropdown styling */
+.dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  width: 220px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cart-warning {
+  color: red;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Cart item styling */
+.cart-item {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.book-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.book-author,
+.book-publisher,
+.book-category,
+.book-return {
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+
+/* Status item styling */
+.status-item {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.status-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.issue-date,
+.return-date,
+.fine,
+.book-type,
+.book-publisher,
+.book-name {
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+.book-name {
+  font-weight: bold;
+  font-size: 16px;
+}

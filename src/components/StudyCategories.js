@@ -10,8 +10,7 @@
 
 import React from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import TopBar from "./TopBar";
-import BackButton from "./BackButton";
+// import TopBar from "./TopBar";
 import Book from "./Book"; // Book card with dropdown details
 import dashboardBg from "./image/dashboard-bg.jpg";
 import "./StudyPage.css"; // reuse styling for categories
@@ -368,8 +367,8 @@ export default function StudyCategories() {
         position: "relative",
       }}
     >
-      {/* TopBar icons */}
-      <TopBar />
+      {/* TopBar icons
+      <TopBar />  */}
       <div className="fiction-overlay" />
 
       {/* Layout split: Left panel vs Right content */}
@@ -423,9 +422,6 @@ export default function StudyCategories() {
             )}
           </section>
         </div>
-
-        {/* Global back button */}
-        <BackButton />
       </div>
     </div>
   );

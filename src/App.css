@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+.dropdown {
+  z-index: 1000; /* high enough to always stay on top */
+}
 
 .App-logo {
   height: 40vmin;

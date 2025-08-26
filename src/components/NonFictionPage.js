@@ -212,8 +212,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import TopBar from "./TopBar";
-import BackButton from "./BackButton";
+// import TopBar from "./components/TopBar";
 import "./NonFictionPage.css";
 import dashboardBg from "./image/dashboard-bg.jpg";
 
@@ -236,8 +235,8 @@ export default function NonFictionPage() {
       className="nonfiction-container"
       style={{ backgroundImage: `url(${dashboardBg})` }}
     >
-      {/* Top bar icons */}
-      <TopBar />
+      {/* Top bar icons 
+      <TopBar /> */}
 
       {/* Page title */}
       <h2 className="page-title">Non-Fiction</h2>
@@ -256,9 +255,6 @@ export default function NonFictionPage() {
           </div>
         ))}
       </div>
-
-      {/* Global back button */}
-      <BackButton />
     </div>
   );
 }

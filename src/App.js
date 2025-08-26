@@ -4,7 +4,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// import TopBar from "./TopBar";
+
 // Import  pages
+import TopBar from "./components/TopBar";
+
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 
@@ -19,11 +23,17 @@ import StudyCategories from "./components/StudyCategories";
 
 import Book from "./components/Book";
 
+
 import "./App.css";
 
 function App() {
   return (
     <Router>
+      {/* <TopBar /> {/* Always visible */}
+      {/* <div style={{ paddingTop: "60px" }}> Space for fixed TopBar */} 
+
+      <TopBar /> {/* Always on top */}
+
       <Routes>
         {/* Page 1 -> Login Page */}
         <Route path="/" element={<Login />} />
@@ -45,6 +55,7 @@ function App() {
         <Route path="/:section/:category" element={<Book />} />
 
       </Routes>
+      {/* </div> */}
     </Router>
   );
 }
