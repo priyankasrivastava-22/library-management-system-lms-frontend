@@ -1,137 +1,217 @@
 // File: src/components/FictionCategories.js
-// Displays books for a selected Fiction category (e.g., Fantasy)
+// ==================================================
+// PAGE: Books for a selected Fiction category (e.g., /fiction/fantasy)
+//
+// Layout:
+//  - Left panel: Section switch + clickable categories
+//  - Right content: Category title + shelves of books
+//  - Books arranged in grid: 12 slots per row (3 rows x 4 columns = shelf)
+//  - Each Book expands inline with dropdown details (overview, review, etc.)
 
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import TopBar from "./TopBar";
 import BackButton from "./BackButton";
+import Book from "./Book"; // Book card with dropdown
 import dashboardBg from "./image/dashboard-bg.jpg";
-import "./FictionPage.css"; // reuse same background + styling
+import "./FictionPage.css"; // reuse styling
 
-// // Simple Back button component
-// const BackBar = ({ onBack }) => (
-//   <div style={{ marginTop: 12 }}>
-//     <button
-//       onClick={onBack}
-//       style={{ padding: "8px 14px", cursor: "pointer" }}
-//     >
-//       ⬅ Back
-//     </button>
-//   </div>
-// );
+/* ---------------- Dummy Books Data ----------------
+   Each category has 10 books, but the grid can hold 12 slots per shelf.
+   Fields: title, author, publisher, stock, overview, review
+----------------------------------------------------- */
+const rawFictionBooks = {
+  fantasy: [
+    {
+      title: "Harry Potter and the Sorcerer’s Stone",
+      author: "J.K. Rowling",
+      publisher: "Bloomsbury",
+      stock: "In Stock",
+      overview: "A young boy discovers he is a wizard and attends Hogwarts School.",
+      review: "Magical, adventurous, and timeless.",
+    },
+    {
+      title: "The Hobbit",
+      author: "J.R.R. Tolkien",
+      publisher: "HarperCollins",
+      stock: "In Stock",
+      overview: "Bilbo Baggins embarks on a journey with dwarves to reclaim treasure.",
+      review: "Charming and filled with adventure.",
+    },
+    {
+      title: "The Name of the Wind",
+      author: "Patrick Rothfuss",
+      publisher: "DAW Books",
+      stock: "In Stock",
+      overview: "Kvothe recounts his life story from childhood to becoming a legend.",
+      review: "Lyrical storytelling, rich world-building.",
+    },
+    {
+      title: "Mistborn: The Final Empire",
+      author: "Brandon Sanderson",
+      publisher: "Tor Books",
+      stock: "Out of Stock",
+      overview: "A young thief discovers her powers to overthrow a tyrant.",
+      review: "Smart magic system and thrilling plot.",
+    },
+    {
+      title: "A Game of Thrones",
+      author: "George R.R. Martin",
+      publisher: "Bantam Spectra",
+      stock: "In Stock",
+      overview: "Noble families vie for the Iron Throne in a brutal struggle.",
+      review: "Dark, political, and full of twists.",
+    },
+    {
+      title: "The Way of Kings",
+      author: "Brandon Sanderson",
+      publisher: "Tor Books",
+      stock: "In Stock",
+      overview: "Epic tale of knights, magic storms, and war.",
+      review: "Deep lore, complex characters.",
+    },
+    {
+      title: "The Last Wish",
+      author: "Andrzej Sapkowski",
+      publisher: "Gollancz",
+      stock: "Out of Stock",
+      overview: "Short stories of Geralt the Witcher, monster hunter.",
+      review: "Gritty, sharp, and clever.",
+    },
+    {
+      title: "Eragon",
+      author: "Christopher Paolini",
+      publisher: "Knopf Books",
+      stock: "In Stock",
+      overview: "A farm boy finds a dragon egg and his life changes forever.",
+      review: "Classic coming-of-age fantasy.",
+    },
+    {
+      title: "The Lion, the Witch and the Wardrobe",
+      author: "C.S. Lewis",
+      publisher: "HarperCollins",
+      stock: "In Stock",
+      overview: "Four children enter Narnia through a wardrobe.",
+      review: "Beautiful allegory, simple yet profound.",
+    },
+    {
+      title: "American Gods",
+      author: "Neil Gaiman",
+      publisher: "HarperCollins",
+      stock: "Out of Stock",
+      overview: "Shadow gets caught in a war between old and new gods.",
+      review: "Dark, mythological, thought-provoking.",
+    },
+  ],
 
-// Reusable card styling
-const cardStyle = {
-  width: "200px",
-  height: "250px",
-  background: "rgba(0,0,0,0.6)",
-  borderRadius: "15px",
-  cursor: "pointer",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "24px",
-  fontWeight: "bold",
-  color: "#fff",
-  transition: "0.3s",
+  mystery: [
+    {
+      title: "The Girl with the Dragon Tattoo",
+      author: "Stieg Larsson",
+      publisher: "Norstedts Förlag",
+      stock: "In Stock",
+      overview: "Journalist and hacker uncover dark secrets of a family.",
+      review: "Gripping, dark Scandinavian mystery.",
+    },
+    {
+      title: "Gone Girl",
+      author: "Gillian Flynn",
+      publisher: "Crown Publishing",
+      stock: "In Stock",
+      overview: "A wife goes missing; her husband becomes the prime suspect.",
+      review: "Twisty, psychological, shocking.",
+    },
+    {
+      title: "Big Little Lies",
+      author: "Liane Moriarty",
+      publisher: "Penguin",
+      stock: "In Stock",
+      overview: "Secrets and lies unravel in a small town.",
+      review: "Clever, entertaining, and layered.",
+    },
+    {
+      title: "The Da Vinci Code",
+      author: "Dan Brown",
+      publisher: "Doubleday",
+      stock: "Out of Stock",
+      overview: "A professor uncovers religious secrets in a murder case.",
+      review: "Fast-paced, full of puzzles.",
+    },
+    {
+      title: "In the Woods",
+      author: "Tana French",
+      publisher: "Viking Press",
+      stock: "In Stock",
+      overview: "Detective investigates a murder linked to his childhood trauma.",
+      review: "Atmospheric and deeply psychological.",
+    },
+    {
+      title: "And Then There Were None",
+      author: "Agatha Christie",
+      publisher: "Collins Crime Club",
+      stock: "In Stock",
+      overview: "Ten strangers are invited to an island… and start dying.",
+      review: "Classic whodunit, brilliant suspense.",
+    },
+    {
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      publisher: "Celadon Books",
+      stock: "In Stock",
+      overview: "A woman stops speaking after killing her husband.",
+      review: "Clever psychological thriller.",
+    },
+    {
+      title: "The Cuckoo’s Calling",
+      author: "Robert Galbraith",
+      publisher: "Sphere Books",
+      stock: "Out of Stock",
+      overview: "A detective investigates the death of a supermodel.",
+      review: "Modern detective story, strong characters.",
+    },
+    {
+      title: "Sharp Objects",
+      author: "Gillian Flynn",
+      publisher: "Shaye Areheart Books",
+      stock: "In Stock",
+      overview: "A reporter returns home to cover a murder case.",
+      review: "Dark, unsettling, psychological.",
+    },
+    {
+      title: "The Woman in the Window",
+      author: "A.J. Finn",
+      publisher: "William Morrow",
+      stock: "In Stock",
+      overview: "An agoraphobic woman witnesses a crime… or does she?",
+      review: "Suspenseful, Hitchcockian.",
+    },
+  ],
+
+  // TODO: Add romance, science-fiction, thriller, historical, children
+  // (same pattern as above, with overview + review)
 };
 
+/* Categories list (matches FictionPage.js routes) */
+const categoriesList = [
+  "fantasy",
+  "mystery",
+  "romance",
+  "science-fiction",
+  "thriller",
+  "historical",
+  "children",
+];
+
+/* Utility: turn "science-fiction" → "Science Fiction" */
+const displayName = (k) =>
+  k ? k.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "";
+
 export default function FictionCategories() {
-  const { category } = useParams(); // get category from URL; e.g. "fantasy"
-  const navigate = useNavigate();   // navigation hook
+  const { category } = useParams(); // get /fiction/:category
+  const navigate = useNavigate();
 
-  // 10 books per Fiction category (sample set)
-  const fictionBooks = {
-    "fantasy": [
-      { title: "Harry Potter and the Sorcerer’s Stone", author: "J.K. Rowling" },
-      { title: "The Hobbit", author: "J.R.R. Tolkien" },
-      { title: "The Name of the Wind", author: "Patrick Rothfuss" },
-      { title: "Mistborn: The Final Empire", author: "Brandon Sanderson" },
-      { title: "A Game of Thrones", author: "George R.R. Martin" },
-      { title: "The Way of Kings", author: "Brandon Sanderson" },
-      { title: "The Last Wish (The Witcher)", author: "A. Sapkowski" },
-      { title: "Eragon", author: "Christopher Paolini" },
-      { title: "The Lion, the Witch and the Wardrobe", author: "C.S. Lewis" },
-      { title: "American Gods", author: "Neil Gaiman" },
-    ],
-    "mystery": [
-      { title: "The Girl with the Dragon Tattoo", author: "Stieg Larsson" },
-      { title: "Gone Girl", author: "Gillian Flynn" },
-      { title: "Big Little Lies", author: "Liane Moriarty" },
-      { title: "The Da Vinci Code", author: "Dan Brown" },
-      { title: "In the Woods", author: "Tana French" },
-      { title: "And Then There Were None", author: "Agatha Christie" },
-      { title: "The Silent Patient", author: "Alex Michaelides" },
-      { title: "The Cuckoo’s Calling", author: "Robert Galbraith" },
-      { title: "Sharp Objects", author: "Gillian Flynn" },
-      { title: "The Woman in the Window", author: "A.J. Finn" },
-    ],
-    "romance": [
-      { title: "Pride and Prejudice", author: "Jane Austen" },
-      { title: "Me Before You", author: "Jojo Moyes" },
-      { title: "The Notebook", author: "Nicholas Sparks" },
-      { title: "Outlander", author: "Diana Gabaldon" },
-      { title: "The Hating Game", author: "Sally Thorne" },
-      { title: "The Time Traveler’s Wife", author: "A. Niffenegger" },
-      { title: "It Ends with Us", author: "Colleen Hoover" },
-      { title: "The Kiss Quotient", author: "Helen Hoang" },
-      { title: "Red, White & Royal Blue", author: "Casey McQuiston" },
-      { title: "Beach Read", author: "Emily Henry" },
-    ],
-    "science fiction": [
-      { title: "Dune", author: "Frank Herbert" },
-      { title: "Ender’s Game", author: "Orson Scott Card" },
-      { title: "Foundation", author: "Isaac Asimov" },
-      { title: "Neuromancer", author: "William Gibson" },
-      { title: "Snow Crash", author: "Neal Stephenson" },
-      { title: "The Martian", author: "Andy Weir" },
-      { title: "Hyperion", author: "Dan Simmons" },
-      { title: "Old Man’s War", author: "John Scalzi" },
-      { title: "Ready Player One", author: "Ernest Cline" },
-      { title: "Annihilation", author: "Jeff VanderMeer" },
-    ],
-    "thriller": [
-      { title: "The Girl on the Train", author: "Paula Hawkins" },
-      { title: "The Shining", author: "Stephen King" },
-      { title: "The Silence of the Lambs", author: "Thomas Harris" },
-      { title: "Shutter Island", author: "Dennis Lehane" },
-      { title: "The Firm", author: "John Grisham" },
-      { title: "Dark Places", author: "Gillian Flynn" },
-      { title: "The Couple Next Door", author: "Shari Lapena" },
-      { title: "Before I Go to Sleep", author: "S.J. Watson" },
-      { title: "The Reversal", author: "Michael Connelly" },
-      { title: "The Bourne Identity", author: "Robert Ludlum" },
-    ],
-    "historical": [
-      { title: "The Book Thief", author: "Markus Zusak" },
-      { title: "All the Light We Cannot See", author: "Anthony Doerr" },
-      { title: "Wolf Hall", author: "Hilary Mantel" },
-      { title: "The Pillars of the Earth", author: "Ken Follett" },
-      { title: "A Gentleman in Moscow", author: "Amor Towles" },
-      { title: "Memoirs of a Geisha", author: "Arthur Golden" },
-      { title: "The Nightingale", author: "Kristin Hannah" },
-      { title: "War and Peace", author: "Leo Tolstoy" },
-      { title: "The Other Boleyn Girl", author: "Philippa Gregory" },
-      { title: "Out of Africa", author: "Isak Dinesen" },
-    ],
-    "children": [
-      { title: "Matilda", author: "Roald Dahl" },
-      { title: "Charlotte’s Web", author: "E.B. White" },
-      { title: "The Cat in the Hat", author: "Dr. Seuss" },
-      { title: "The Very Hungry Caterpillar", author: "Eric Carle" },
-      { title: "Where the Wild Things Are", author: "Maurice Sendak" },
-      { title: "Goodnight Moon", author: "M. W. Brown" },
-      { title: "Dog Man", author: "Dav Pilkey" },
-      { title: "Diary of a Wimpy Kid", author: "Jeff Kinney" },
-      { title: "The Tale of Peter Rabbit", author: "Beatrix Potter" },
-      { title: "Wonder", author: "R.J. Palacio" },
-    ],
-  };
-
-  // Normalize URL param: replace '-' with space for lookup
-  const key = (category || "").toLowerCase().replace(/-/g, " ");
-  const list = fictionBooks[key] || [];      // get books list
-
+  const key = (category || "").toLowerCase(); // e.g. "fantasy"
+  const books = rawFictionBooks[key] || [];   // books for that category
 
   return (
     <div
@@ -142,50 +222,69 @@ export default function FictionCategories() {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         color: "#fff",
-        padding: "20px",
         fontFamily: "Arial, sans-serif",
-        position: "relative",   // needed for TopBar's absolute position
+        position: "relative",
       }}
     >
-      {/* TopBar shows Profile, Notifications, Cart */}
-        <TopBar />
+      {/* TopBar icons */}
+      <TopBar />
+      <div className="fiction-overlay" />
 
-      {/* Page Header */}
-      <h1 style={{ textAlign: "center", textShadow: "2px 2px 8px #000" }}>
-        Fiction — {category?.replace(/-/g, " ").toUpperCase()}
-      </h1>
-    
-      {/* Back Button
-      <BackBar onBack={() => navigate(-1)} /> */}
+      {/* Layout split: Left panel vs Right content */}
+      <div className="fiction-categories-container">
+        <div className="fiction-layout">
+          {/* ---------------- LEFT PANEL ---------------- */}
+          <aside className="left-panel">
+            {/* Section switch */}
+            <div className="section-switch">
+              <button className="active" onClick={() => navigate("/fiction")}>
+                Fiction
+              </button>
+              <button onClick={() => navigate("/nonfiction")}>Non-Fiction</button>
+              <button onClick={() => navigate("/study")}>Study</button>
+            </div>
 
-      {/* Books list */}
-      <div style={{ marginTop: 20, maxWidth: 900, marginInline: "auto" }}>
-        {list.length === 0 ? (
-          <p>No books found for this category.</p>
-        ) : (
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {list.map((b, i) => (
-              <li
-                key={i}
-                style={{
-                  background: "rgba(0,0,0,0.6)",
-                  marginBottom: 12,
-                  padding: "14px 16px",
-                  borderRadius: 10,
-                  border: "1px solid rgba(255,255,255,0.35)",
-                }}
-              >
-                <strong>{b.title}</strong> — {b.author}
-              </li>
-            ))}
-          </ul>
-        )}
-        
+            {/* Categories list */}
+            <h3 style={{ marginTop: 8 }}>Categories</h3>
+            <ul className="left-categories">
+              {categoriesList.map((cat) => (
+                <li key={cat}>
+                  <Link to={`/fiction/${cat}`} className="category-link">
+                    {displayName(cat)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
+
+          {/* ---------------- RIGHT CONTENT ---------------- */}
+          <section className="right-content">
+            <h2>{key ? `${displayName(key)} — Books` : "Select a category"}</h2>
+
+            {!key ? (
+              <p>Please choose a category from the left.</p>
+            ) : (
+              <div className="shelves">
+                {/* 12 slots per row (grid of 3 rows × 4 cols) */}
+                <div className="book-grid">
+                  {books.map((b, i) => (
+                    <Book key={i} book={b} />
+                  ))}
+                  {/* Fill empty slots so grid always shows 12 places */}
+                  {Array.from({ length: 12 - (books.length % 12) }).map(
+                    (_, idx) => (
+                      <div key={`empty-${idx}`} className="book-slot empty" />
+                    )
+                  )}
+                </div>
+              </div>
+            )}
+          </section>
+        </div>
+
+        {/* Global back button */}
+        <BackButton />
       </div>
-
-      {/* Back button */}
-      <BackButton />
-
     </div>
   );
 }

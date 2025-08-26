@@ -68,3 +68,146 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+"Updated UI: circular sections, smaller login button, added BackButton & TopBar components"
+Got it 👍 I’ll draft a **README.md** for your project till the current stage (Frontend Library Management System with circular sections, smaller login button, category pages, etc.).
+
+Here’s a good version:
+
+---26-28-25---
+
+# 📚 Library Management System (Frontend)
+
+This is a **Library Management System frontend** built using **React.js**.
+It provides a clean and interactive UI for users to login and explore different categories of books (Fiction, Non-Fiction, and Study).
+
+---
+
+## ✨ Features Implemented So Far
+
+* **Login Page**
+
+  * Background image with a transparent login circle.
+  * Smaller, centered **Login button**.
+
+* **Dashboard**
+
+  * Three categories displayed in **circular sections**:
+
+    * Fiction
+    * Non-Fiction
+    * Study
+
+* **Category Pages**
+
+  * Fiction, Non-Fiction, and Study books listed.
+  * Back button available for easy navigation.
+
+* **UI Enhancements**
+
+  * Circular styled sections instead of square/boxy layout.
+  * TopBar and BackButton components for better navigation.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend**: React.js
+* **Styling**: CSS
+* **Version Control**: Git & GitHub
+
+---
+
+## 📂 Project Structure (Important Files)
+
+```
+src/
+├── App.js
+├── components/
+│   ├── Dashboard.js
+│   ├── FictionCategories.js
+│   ├── FictionPage.js
+│   ├── NonFictionCategories.js
+│   ├── NonFictionPage.js
+│   ├── StudyCategories.js
+│   ├── StudyPage.js
+│   ├── Login.js
+│   ├── BackButton.js
+│   ├── TopBar.js
+│   ├── image/
+│       └── dashboard-bg.jpg
+│   ├── FictionPage.css
+│   ├── Login.css
+```
+
+---
+
+## 🚀 Getting Started
+
+1. Clone this repository:
+
+   ```bash
+   git clone <your-repo-url>
+   cd library-management-system-lms-frontend
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the frontend server:
+
+   ```bash
+   npm start
+   ```
+
+4. Open in browser:
+
+   ```
+   http://localhost:3000
+   ```
+
+---
+
+## Tech Stack
+
+ * React.js → For building UI components.
+
+ * CSS → For styling the login page, dashboard, and book categories.
+
+ * Git & GitHub → For version control.
+
+---
+
+## 📌 Next Steps (Planned)
+
+* Add **Admin Dashboard** (for managing books).
+* Connect with **Backend API** for authentication & data.
+* Improve **responsiveness** for mobile devices.
+
+
+src/
+├── App.js                  # Main entry point that controls routing
+├── components/
+│   ├── Login.js            # Login page UI with circular login button
+│   ├── Dashboard.js        # Main dashboard showing Fiction/Non-Fiction/Study
+│   ├── FictionCategories.js
+│   ├── FictionPage.js      # Fiction books listing
+│   ├── NonFictionCategories.js
+│   ├── NonFictionPage.js   # Non-Fiction books listing
+│   ├── StudyCategories.js
+│   ├── StudyPage.js        # Study books listing
+│   ├── BackButton.js       # Reusable Back button component
+│   ├── TopBar.js           # Top bar navigation
+│   ├── image/
+│   │   └── dashboard-bg.jpg # Background image used in login/dashboard
+│   ├── FictionPage.css     # Styles for Fiction page
+│   ├── Login.css           # Styles for Login page
+
+
+
+---26-08-25---

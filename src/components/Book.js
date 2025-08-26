@@ -1,42 +1,44 @@
-import React from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+// File: src/components/Book.js
+// ===========================
+// Reusable Book card component.
+// - Shows book title in a compact card
+// - Click the header to toggle a dropdown that reveals details (author, publisher, stock, review)
+// - Designed to be placed inside a grid where each book occupies one column
 
-// Single 3D Book shape (simple box for now)
-function BookShape({ position, color, onClick }) {
+import React, { useState } from "react";
+import "./Book.css"; // styles for .book-card, .book-details
+
+function Book({ book }) {
+  // Controls whether the book's details are visible
+  const [open, setOpen] = useState(false);
+
+  // Defensive: if book is missing fields, show placeholders
+  const title = book.title || "Untitled";
+  const author = book.author || "Unknown author";
+  const publisher = book.publisher || "Unknown publisher";
+  const stock = book.stock || "N/A";
+  const review = book.review || "No review available.";
+
   return (
-    <mesh position={position} onClick={onClick} castShadow>
-      {/* book block */}
-      <boxGeometry args={[2, 3, 0.6]} />
-      <meshStandardMaterial color={color} />
-    </mesh>
+    <div className="book-card" onClick={() => setOpen((s) => !s)}>
+      {/* Header row: title + expand arrow */}
+      <div className="book-header">
+        <div className="book-title">{title}</div>
+        <div className="dropdown-arrow">{open ? "▲" : "▼"}</div>
+      </div>
+
+      {/* When open, show details inside the card (dropdown style).
+          Note: because the card expands, the grid row height changes automatically. */}
+      {open && (
+        <div className="book-details">
+          <p><strong>Author:</strong> {author}</p>
+          <p><strong>Publisher:</strong> {publisher}</p>
+          <p><strong>Stock:</strong> {stock}</p>
+          <p><strong>Review:</strong> {review}</p>
+        </div>
+      )}
+    </div>
   );
 }
 
-// Canvas wrapper
-export default function Book({ books }) {
-  return (
-    <Canvas
-      style={{ width: "100%", height: "500px" }}
-      shadows
-      camera={{ position: [5, 5, 10], fov: 45 }}
-    >
-      {/* Lights */}
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
-
-      {/* Camera controls */}
-      <OrbitControls />
-
-      {/* Render each book */}
-      {books.map((book, i) => (
-        <BookShape
-          key={i}
-          position={[i * 3 - 3, 0, 0]} // space out books on X-axis
-          color={book.color}
-          onClick={book.onClick}
-        />
-      ))}
-    </Canvas>
-  );
-}
+export default Book;

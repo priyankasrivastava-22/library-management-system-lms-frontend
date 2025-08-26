@@ -1,177 +1,216 @@
-// // File: src/components/NonFictionCategories.js
-// // This page will show different categories inside Non-Fiction
-
-// import React from "react";
-
-// export default function NonFictionCategories() {
-//   return (
-//     <div style={{ textAlign: "center", padding: "20px" }}>
-//       {/* Page Heading */}
-//       <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "20px" }}>
-//         Non-Fiction Categories
-//       </h1>
-
-//       {/* Non-fiction category buttons */}
-//       <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
-//         <button style={btnStyle}>Biography</button>
-//         <button style={btnStyle}>Self-Help</button>
-//         <button style={btnStyle}>History</button>
-//         <button style={btnStyle}>Science</button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// const btnStyle = {
-//   padding: "12px 24px",
-//   fontSize: "16px",
-//   borderRadius: "8px",
-//   border: "none",
-//   backgroundColor: "#2196F3",
-//   color: "white",
-//   cursor: "pointer",
-// };
-
-
-
-// ==========================
 // File: src/components/NonFictionCategories.js
-// ==========================
-// PURPOSE:
-// - When a Non-Fiction category is clicked, show 10 books for that category
-// - URL: /nonfiction/:category
-// - Kept your category names, including "Science Fiction" (even though it's usually fiction)
+// ==================================================
+// PAGE: Books for a selected Non-Fiction category (e.g., /nonfiction/biography)
+//
+// Layout:
+//  - Left panel: Section switch + clickable categories
+//  - Right content: Category title + shelves of books
+//  - Books arranged in grid: 12 slots per row (3 rows x 4 columns)
+//  - Each Book expands inline with dropdown details (overview, review, etc.)
 
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import TopBar from "./TopBar";
+import BackButton from "./BackButton";
+import Book from "./Book"; // Book card with dropdown
 import dashboardBg from "./image/dashboard-bg.jpg";
-import "./NonFictionPage"; // reuse same background + styling
-import TopBar from "./TopBar"; // import profile, status, cart buttons
-import BackButton from "./BackButton"; // import back button
+import "./NonFictionPage"; // reuse styling for consistency
 
+/* ---------------- Dummy Non-Fiction Books Data ----------------
+   Each category has 10 books.
+   Fields: title, author, publisher, stock, overview, review
+---------------------------------------------------------------- */
+const rawNonFictionBooks = {
+  biography: [
+    {
+      title: "The Diary of a Young Girl",
+      author: "Anne Frank",
+      publisher: "Contact Publishing",
+      stock: "In Stock",
+      overview: "Anne Frank’s diary entries while hiding during WWII.",
+      review: "Touching and powerful historical document.",
+    },
+    {
+      title: "Long Walk to Freedom",
+      author: "Nelson Mandela",
+      publisher: "Little, Brown",
+      stock: "In Stock",
+      overview: "Autobiography of Nelson Mandela’s life and struggle.",
+      review: "Inspirational and deeply moving.",
+    },
+    {
+      title: "Steve Jobs",
+      author: "Walter Isaacson",
+      publisher: "Simon & Schuster",
+      stock: "Out of Stock",
+      overview: "Biography of Apple’s co-founder Steve Jobs.",
+      review: "Fascinating and brutally honest.",
+    },
+    {
+      title: "Becoming",
+      author: "Michelle Obama",
+      publisher: "Crown Publishing",
+      stock: "In Stock",
+      overview: "Memoir of the former First Lady of the USA.",
+      review: "Empowering and authentic.",
+    },
+    {
+      title: "Educated",
+      author: "Tara Westover",
+      publisher: "Random House",
+      stock: "In Stock",
+      overview: "A woman grows up in a survivalist family and seeks education.",
+      review: "Raw and inspiring.",
+    },
+    {
+      title: "The Wright Brothers",
+      author: "David McCullough",
+      publisher: "Simon & Schuster",
+      stock: "In Stock",
+      overview: "Story of Wilbur and Orville Wright’s aviation breakthroughs.",
+      review: "Detailed and well researched.",
+    },
+    {
+      title: "Churchill: A Life",
+      author: "Martin Gilbert",
+      publisher: "Heinemann",
+      stock: "Out of Stock",
+      overview: "Biography of Winston Churchill.",
+      review: "Comprehensive and engaging.",
+    },
+    {
+      title: "Leonardo da Vinci",
+      author: "Walter Isaacson",
+      publisher: "Simon & Schuster",
+      stock: "In Stock",
+      overview: "Explores the genius of da Vinci.",
+      review: "Brilliant and insightful.",
+    },
+    {
+      title: "Into the Wild",
+      author: "Jon Krakauer",
+      publisher: "Villard",
+      stock: "In Stock",
+      overview: "Life of Christopher McCandless who ventured into Alaska.",
+      review: "Haunting and tragic.",
+    },
+    {
+      title: "Einstein: His Life and Universe",
+      author: "Walter Isaacson",
+      publisher: "Simon & Schuster",
+      stock: "Out of Stock",
+      overview: "Biography of Albert Einstein.",
+      review: "Thorough and fascinating.",
+    },
+  ],
 
-// // Simple Back button component
-// const BackBar = ({ onBack }) => (
-//   <div style={{ marginTop: 12 }}>
-//     <button onClick={onBack} 
-//     style={{ padding: "8px 14px", cursor: "pointer" }}
-//     >
-//       ⬅ Back
-//     </button>
-//   </div>
-// );
+  selfhelp: [
+    {
+      title: "The Power of Habit",
+      author: "Charles Duhigg",
+      publisher: "Random House",
+      stock: "In Stock",
+      overview: "Explores how habits work and how they can be changed.",
+      review: "Eye-opening and practical.",
+    },
+    {
+      title: "Atomic Habits",
+      author: "James Clear",
+      publisher: "Penguin",
+      stock: "In Stock",
+      overview: "Small changes that produce remarkable results.",
+      review: "Clear, actionable advice.",
+    },
+    {
+      title: "The 7 Habits of Highly Effective People",
+      author: "Stephen Covey",
+      publisher: "Free Press",
+      stock: "Out of Stock",
+      overview: "Principles for personal and professional success.",
+      review: "Classic, timeless wisdom.",
+    },
+    {
+      title: "Think and Grow Rich",
+      author: "Napoleon Hill",
+      publisher: "The Ralston Society",
+      stock: "In Stock",
+      overview: "Philosophy of success through positive thinking.",
+      review: "Motivational and foundational.",
+    },
+    {
+      title: "How to Win Friends and Influence People",
+      author: "Dale Carnegie",
+      publisher: "Simon & Schuster",
+      stock: "In Stock",
+      overview: "Guide to better communication and relationships.",
+      review: "Practical and still relevant.",
+    },
+    {
+      title: "You Are a Badass",
+      author: "Jen Sincero",
+      publisher: "Running Press",
+      stock: "In Stock",
+      overview: "Advice on embracing your inner power.",
+      review: "Funny and encouraging.",
+    },
+    {
+      title: "The Subtle Art of Not Giving a F*ck",
+      author: "Mark Manson",
+      publisher: "HarperOne",
+      stock: "Out of Stock",
+      overview: "Counterintuitive approach to living a better life.",
+      review: "Blunt yet refreshing.",
+    },
+    {
+      title: "Grit",
+      author: "Angela Duckworth",
+      publisher: "Scribner",
+      stock: "In Stock",
+      overview: "The power of passion and perseverance.",
+      review: "Research-driven and inspiring.",
+    },
+    {
+      title: "Awaken the Giant Within",
+      author: "Tony Robbins",
+      publisher: "Free Press",
+      stock: "In Stock",
+      overview: "Personal mastery and self-improvement.",
+      review: "Motivational and empowering.",
+    },
+    {
+      title: "Mindset",
+      author: "Carol S. Dweck",
+      publisher: "Random House",
+      stock: "Out of Stock",
+      overview: "The psychology of fixed vs growth mindset.",
+      review: "Influential and widely cited.",
+    },
+  ],
 
-// Reusable card styling
-const cardStyle = {
-  width: "200px",
-  height: "250px",
-  background: "rgba(0,0,0,0.6)",
-  borderRadius: "15px",
-  cursor: "pointer",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "24px",
-  fontWeight: "bold",
-  color: "#fff",
-  transition: "0.3s",
+  // TODO: Add history, science, philosophy, travel, truecrime (same pattern)
 };
 
+/* Categories list (matches NonFictionPage.js routes) */
+const categoriesList = [
+  "biography",
+  "selfhelp",
+  "history",
+  "science",
+  "philosophy",
+  "travel",
+  "truecrime",
+];
+
+/* Utility: format route keys to Display Names */
+const displayName = (k) =>
+  k ? k.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "";
+
 export default function NonFictionCategories() {
-  const { category } = useParams(); // get category from URL; e.g. "biographies"
-  const navigate = useNavigate();   // navigation hook
+  const { category } = useParams(); // get /nonfiction/:category
+  const navigate = useNavigate();
 
-  // 10 books per Non-Fiction category (sample set)
-  const nonFictionBooks = {
-    "biographies": [
-      { title: "The Diary of a Young Girl", author: "Anne Frank" },
-      { title: "Long Walk to Freedom", author: "Nelson Mandela" },
-      { title: "Steve Jobs", author: "Walter Isaacson" },
-      { title: "Becoming", author: "Michelle Obama" },
-      { title: "Einstein: His Life and Universe", author: "Walter Isaacson" },
-      { title: "Educated", author: "Tara Westover" },
-      { title: "The Glass Castle", author: "Jeannette Walls" },
-      { title: "When Breath Becomes Air", author: "Paul Kalanithi" },
-      { title: "Open", author: "Andre Agassi" },
-      { title: "Into the Wild", author: "Jon Krakauer" },
-    ],
-    "self help": [
-      { title: "Atomic Habits", author: "James Clear" },
-      { title: "The 7 Habits of Highly Effective People", author: "Stephen R. Covey" },
-      { title: "How to Win Friends & Influence People", author: "Dale Carnegie" },
-      { title: "The Power of Now", author: "Eckhart Tolle" },
-      { title: "Mindset", author: "Carol S. Dweck" },
-      { title: "Deep Work", author: "Cal Newport" },
-      { title: "The Subtle Art of Not Giving a F*ck", author: "Mark Manson" },
-      { title: "Grit", author: "Angela Duckworth" },
-      { title: "Think and Grow Rich", author: "Napoleon Hill" },
-      { title: "Make Your Bed", author: "Admiral W. H. McRaven" },
-    ],
-    "history": [
-      { title: "Sapiens", author: "Yuval Noah Harari" },
-      { title: "Guns, Germs, and Steel", author: "Jared Diamond" },
-      { title: "The Silk Roads", author: "Peter Frankopan" },
-      { title: "The Wright Brothers", author: "David McCullough" },
-      { title: "Team of Rivals", author: "Doris Kearns Goodwin" },
-      { title: "The Second World War", author: "Antony Beevor" },
-      { title: "Postwar", author: "Tony Judt" },
-      { title: "The Warmth of Other Suns", author: "Isabel Wilkerson" },
-      { title: "The Crusades", author: "Thomas Asbridge" },
-      { title: "Gulag Archipelago (Abridged)", author: "A. Solzhenitsyn" },
-    ],
-    "science fiction": [
-      // keeping your label, but listing popular science / science-adjacent nonfiction:
-      { title: "A Brief History of Time", author: "Stephen Hawking" },
-      { title: "Cosmos", author: "Carl Sagan" },
-      { title: "The Selfish Gene", author: "Richard Dawkins" },
-      { title: "The Gene", author: "Siddhartha Mukherjee" },
-      { title: "The Immortal Life of Henrietta Lacks", author: "Rebecca Skloot" },
-      { title: "Astrophysics for People in a Hurry", author: "Neil deGrasse Tyson" },
-      { title: "Chaos", author: "James Gleick" },
-      { title: "The Emperor of All Maladies", author: "S. Mukherjee" },
-      { title: "Why We Sleep", author: "Matthew Walker" },
-      { title: "The Body", author: "Bill Bryson" },
-    ],
-    "travel": [
-      { title: "Into Thin Air", author: "Jon Krakauer" },
-      { title: "On the Road", author: "Jack Kerouac" },
-      { title: "Vagabonding", author: "Rolf Potts" },
-      { title: "A Walk in the Woods", author: "Bill Bryson" },
-      { title: "The Art of Travel", author: "Alain de Botton" },
-      { title: "Eat, Pray, Love", author: "Elizabeth Gilbert" },
-      { title: "In Patagonia", author: "Bruce Chatwin" },
-      { title: "The Great Railway Bazaar", author: "Paul Theroux" },
-      { title: "Wild", author: "Cheryl Strayed" },
-      { title: "The Geography of Bliss", author: "Eric Weiner" },
-    ],
-    "cookbooks": [
-      { title: "Salt, Fat, Acid, Heat", author: "Samin Nosrat" },
-      { title: "The Joy of Cooking", author: "Irma S. Rombauer" },
-      { title: "Ottolenghi Simple", author: "Yotam Ottolenghi" },
-      { title: "Essentials of Classic Italian Cooking", author: "Marcella Hazan" },
-      { title: "Mastering the Art of French Cooking", author: "Julia Child" },
-      { title: "Baking: From My Home to Yours", author: "Dorie Greenspan" },
-      { title: "Plenty", author: "Yotam Ottolenghi" },
-      { title: "The Food Lab", author: "J. Kenji López-Alt" },
-      { title: "Jerusalem", author: "Yotam Ottolenghi" },
-      { title: "Franklin Barbecue", author: "Aaron Franklin" },
-    ],
-    "philosophy": [
-      { title: "Meditations", author: "Marcus Aurelius" },
-      { title: "The Republic", author: "Plato" },
-      { title: "Nicomachean Ethics", author: "Aristotle" },
-      { title: "Beyond Good and Evil", author: "Friedrich Nietzsche" },
-      { title: "Being and Time", author: "Martin Heidegger" },
-      { title: "The Stranger", author: "Albert Camus" },
-      { title: "Tao Te Ching", author: "Laozi" },
-      { title: "Critique of Pure Reason", author: "Immanuel Kant" },
-      { title: "The Myth of Sisyphus", author: "Albert Camus" },
-      { title: "Thus Spoke Zarathustra", author: "Friedrich Nietzsche" },
-    ],
-  };
-
-  const key = (category || "").toLowerCase();   // normalize URL param
-  const list = nonFictionBooks[key] || [];      // get books list
+  const key = (category || "").toLowerCase();
+  const books = rawNonFictionBooks[key] || [];
 
   return (
     <div
@@ -182,55 +221,68 @@ export default function NonFictionCategories() {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         color: "#fff",
-        padding: "20px",
         fontFamily: "Arial, sans-serif",
-        position: "relative",   // needed for TopBar's absolute position
+        position: "relative",
       }}
     >
-         {/* ===================== */}
-      {/* ✅ TopBar shows Profile, Notifications, Cart */}
-      {/* ===================== */}
+      {/* TopBar icons */}
       <TopBar />
+      <div className="fiction-overlay" />
 
-       {/* ===================== */}
-      {/* Page Header */}
-      {/* ===================== */}
-      <h1 style={{ textAlign: "center", textShadow: "2px 2px 8px #000" }}>
-        Non-Fiction — {category?.toUpperCase()}
-      </h1>
+      {/* Layout split: Left panel vs Right content */}
+      <div className="fiction-categories-container">
+        <div className="fiction-layout">
+          {/* ---------------- LEFT PANEL ---------------- */}
+          <aside className="left-panel">
+            {/* Section switch */}
+            <div className="section-switch">
+              <button onClick={() => navigate("/fiction")}>Fiction</button>
+              <button className="active" onClick={() => navigate("/nonfiction")}>
+                Non-Fiction
+              </button>
+              <button onClick={() => navigate("/study")}>Study</button>
+            </div>
 
-      
-      {/* Back button */}
-      {/* ===================== */}
-      {/* <BackBar onBack={() => navigate(-1)} /> */}
+            {/* Categories list */}
+            <h3 style={{ marginTop: 8 }}>Categories</h3>
+            <ul className="left-categories">
+              {categoriesList.map((cat) => (
+                <li key={cat}>
+                  <Link to={`/nonfiction/${cat}`} className="category-link">
+                    {displayName(cat)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
 
-        {/* ===================== */}
-      {/* List of books */}
-      {/* ===================== */}
-      <div style={{ marginTop: 20, maxWidth: 900, marginInline: "auto" }}>
-        {list.length === 0 ? (
-          <p>No books found for this category.</p>
-        ) : (
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {list.map((b, i) => (
-              <li
-                key={i}
-                style={{
-                  background: "rgba(0,0,0,0.6)",
-                  marginBottom: 12,
-                  padding: "14px 16px",
-                  borderRadius: 10,
-                  border: "1px solid rgba(255,255,255,0.35)",
-                }}
-              >
-                <strong>{b.title}</strong> — {b.author}
-              </li>
-            ))}
-          </ul>
-        )}
+          {/* ---------------- RIGHT CONTENT ---------------- */}
+          <section className="right-content">
+            <h2>{key ? `${displayName(key)} — Books` : "Select a category"}</h2>
+
+            {!key ? (
+              <p>Please choose a category from the left.</p>
+            ) : (
+              <div className="shelves">
+                <div className="book-grid">
+                  {books.map((b, i) => (
+                    <Book key={i} book={b} />
+                  ))}
+                  {/* Empty slots to complete 12 grid */}
+                  {Array.from({ length: 12 - (books.length % 12) }).map(
+                    (_, idx) => (
+                      <div key={`empty-${idx}`} className="book-slot empty" />
+                    )
+                  )}
+                </div>
+              </div>
+            )}
+          </section>
+        </div>
+
+        {/* Global back button */}
+        <BackButton />
       </div>
-      {/* Back button */}
-            <BackButton />
     </div>
   );
 }

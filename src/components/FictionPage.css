@@ -1,64 +1,34 @@
-/* src/components/FictionPage.css */
+/* File: src/components/FictionPage.css */
 
 /* Background same as dashboard */
-.study-container {
+.fiction-container {
   background: url("./image/dashboard-bg.jpg") no-repeat center center fixed;
   background-size: cover;
   min-height: 100vh;
   padding: 20px;
   color: white;
-}
-
-/* Header styling */
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
-}
-
-/* Library title */
-.library-title {
-  font-size: 36px;
-  font-weight: bold;
-  color: #fff; /* white text on background */
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.6); /* makes text stand out */
-  text-align: center; /* centers text */
-  margin: 0;
-}
-
-/* Icons container */
-.icons {
+  font-family: Arial, sans-serif;
   position: relative;
-  right: 20px; /* moves icons to top-right corner */
-  top: 10px;
-  display: flex;
-  gap: 15px;
-}
-
-.icon {
-  font-size: 24px;
-  cursor: pointer;
 }
 
 /* Page title */
 .page-title {
   margin-top: 30px;
-  font-size: 28px;
+  font-size: 40px;
   text-align: center;
   font-weight: bold;
-  text-decoration: underline;
 }
 
-/* Category grid */
-.categories-grid {
+/* Category grid layout (if showing categories, e.g., on /fiction main page) */
+.category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  margin-top: 40px;
+  gap: 30px;
+  margin-top: 180px;
   padding: 0 50px;
 }
 
+/* Individual category card */
 .category-card {
   background: rgba(0, 0, 0, 0.6);
   padding: 30px;
@@ -67,11 +37,102 @@
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+  transition: transform 0.2s, background 0.3s, color 0.3s;
 }
 
 .category-card:hover {
   background: rgba(255, 255, 255, 0.8);
   color: black;
   transform: scale(1.05);
+}
+
+/* Optional: back button positioning */
+.back-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Left panel + right content for category pages (like FictionCategories.js) */
+.fiction-layout {
+  display: flex;
+  gap: 20px;
+  padding: 20px 50px;
+}
+
+/* Left panel for categories list + section switch */
+.left-panel {
+  width: 250px;
+}
+
+/* Section switch buttons */
+.section-switch {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.section-switch button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(0,0,0,0.6);
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.section-switch button.active,
+.section-switch button:hover {
+  background-color: rgba(255,255,255,0.8);
+  color: black;
+}
+
+/* Left categories list */
+.left-categories ul {
+  list-style: none;
+  padding: 0;
+}
+
+.left-categories li {
+  margin-bottom: 10px;
+}
+
+.category-link {
+  display: inline-block;
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.category-link:hover {
+  background-color: rgba(255,255,255,0.3);
+  color: #fff;
+}
+
+/* Right content: books grid */
+.right-content {
+  flex: 1;
+}
+
+/* Shelves area */
+.shelves {
+  margin-top: 20px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Empty slots in grid */
+.book-slot.empty {
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  height: 200px; /* approximate book card height */
 }

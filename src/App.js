@@ -17,16 +17,18 @@ import NonFictionCategories from "./components/NonFictionCategories";
 import StudyPage from "./components/StudyPage";
 import StudyCategories from "./components/StudyCategories";
 
+import Book from "./components/Book";
+
 import "./App.css";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Login Page */}
+        {/* Page 1 -> Login Page */}
         <Route path="/" element={<Login />} />
 
-        {/* Dashboard */}
+        {/* Page 2 -> Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Main sections */}
@@ -34,10 +36,14 @@ function App() {
         <Route path="/nonfiction" element={<NonFictionPage />} />
         <Route path="/study" element={<StudyPage />} />
 
-        {/* Sub-category pages */}
+        {/* Page 3 -> Sub-category pages */}
         <Route path="/fiction/:category" element={<FictionCategories />} />
         <Route path="/nonfiction/:category" element={<NonFictionCategories />} />
-        <Route path="/study/:categor" element={<StudyCategories />} />
+        <Route path="/study/:category" element={<StudyCategories />} />
+
+        {/* Page 4 → Book Page (Dynamic by category) */}
+        <Route path="/:section/:category" element={<Book />} />
+
       </Routes>
     </Router>
   );
