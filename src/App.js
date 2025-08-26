@@ -3,15 +3,18 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// Import  pages
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import FictionPage from "./components/FictionPage";
-import NonFictionPage from "./components/NonFictionPage";
-import StudyPage from "./components/StudyPage";
 
-// Import new category pages
+import FictionPage from "./components/FictionPage";
 import FictionCategories from "./components/FictionCategories";
+
+import NonFictionPage from "./components/NonFictionPage";
 import NonFictionCategories from "./components/NonFictionCategories";
+
+import StudyPage from "./components/StudyPage";
 import StudyCategories from "./components/StudyCategories";
 
 import "./App.css";
@@ -32,9 +35,9 @@ function App() {
         <Route path="/study" element={<StudyPage />} />
 
         {/* Sub-category pages */}
-        <Route path="/fiction/categories" element={<FictionCategories />} />
-        <Route path="/nonfiction/categories" element={<NonFictionCategories />} />
-        <Route path="/study/categories" element={<StudyCategories />} />
+        <Route path="/fiction/:category" element={<FictionCategories />} />
+        <Route path="/nonfiction/:category" element={<NonFictionCategories />} />
+        <Route path="/study/:categor" element={<StudyCategories />} />
       </Routes>
     </Router>
   );

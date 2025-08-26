@@ -29,7 +29,7 @@
 
 /* Icons container */
 .icons {
-  position: absolute;
+  position: relative;
   right: 20px; /* moves icons to top-right corner */
   top: 10px;
   display: flex;
