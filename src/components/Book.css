@@ -2,7 +2,7 @@
 
 /* Card container - will fill the grid column */
 .book-card {
-  background: rgba(255, 255, 255, 0.95); /* light card so text is readable on dark bg */
+  background: rgba(255, 255, 255, 0.70); /* light card so text is readable on dark bg */
   color: #111;
   border-radius: 8px;
   padding: 10px;
@@ -52,4 +52,37 @@
   padding: 8px;
   border-radius: 6px;
   color: #222;
+}
+
+/* header layout: title + dropdown icon */
+.book-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Title text */
+.book-title {
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: default; /* prevent click effect */
+}
+
+/* dropdown arrow */
+.dropdown-arrow {
+  margin-left: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.8;
+  transition: transform 0.2s;
+}
+
+.dropdown-arrow:hover {
+  opacity: 1;
+  transform: scale(1.2);
 }

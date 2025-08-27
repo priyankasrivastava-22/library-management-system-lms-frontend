@@ -1,6 +1,6 @@
-// // // src/components/FictionPage.js
+// // // src/components/StudyPage.js
 // // import React from "react";
-// // import "./StudyPage.css"; // custom styling for Fiction categories
+// // import "./StudyPage.css"; // custom styling for Study categories
 // // import { Link } from "react-router-dom"; // in case you want links later
 
 // // const StudyPage = () => {
@@ -117,16 +117,71 @@
 
 
 
-// File: src/components/StudyPage.js
-// ==================================================
-// PURPOSE:
-// - Display all Study categories after clicking "Study" on the dashboard
-// - Clicking on a category navigates to /study/:category handled by StudyCategories.js
+// // File: src/components/StudyPage.js
+// // ==================================================
+// // PURPOSE:
+// // - Display all Study categories after clicking "Study" on the dashboard
+// // - Clicking on a category navigates to /study/:category handled by StudyCategories.js
+
+// import React from "react";
+// import { useNavigate } from "react-router-dom";
+// // import TopBar from "./TopBar";
+// import "./StudyPage.css";
+// import dashboardBg from "./image/dashboard-bg.jpg";
+
+// export default function StudyPage() {
+//   const navigate = useNavigate();
+
+//   // List of Study categories
+//   const categories = [
+//     "Mathematics",
+//     "Physics",
+//     "Chemistry",
+//     "Biology",
+//     "Computer Science",
+//     "Engineering",
+//     "Economics",
+//   ];
+
+//   return (
+//     <div
+//       className="study-container"
+//       style={{ backgroundImage: `url(${dashboardBg})` }}
+//     >
+//       {/* Top bar icons
+//       <TopBar /> */}
+
+//       {/* Page header
+//       <header className="header">
+//         <h1 className="library-title">📚 Welcome to the Library</h1>
+//       </header> */}
+
+//       {/* Page title */}
+//       <h2 className="page-title">Study</h2>
+
+//       {/* Grid of categories */}
+//       <div className="category-grid">
+//         {categories.map((cat) => (
+//           <div
+//             key={cat}
+//             className="category-card"
+//             onClick={() =>
+//               navigate(`/study/${cat.toLowerCase().replace(/\s+/g, "-")}`)
+//             } // convert spaces → hyphens
+//           >
+//             {cat}
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import TopBar from "./TopBar";
-import "./StudyPage.css";
+import "./StudyPage.css"; // CSS file for styling
 import dashboardBg from "./image/dashboard-bg.jpg";
 
 export default function StudyPage() {
@@ -138,9 +193,10 @@ export default function StudyPage() {
     "Physics",
     "Chemistry",
     "Biology",
-    "Computer Science",
+    // "Computer Science",
     "Engineering",
     "Economics",
+    "Law"
   ];
 
   return (
@@ -148,23 +204,15 @@ export default function StudyPage() {
       className="study-container"
       style={{ backgroundImage: `url(${dashboardBg})` }}
     >
-      {/* Top bar icons
-      <TopBar /> */}
-
-      {/* Page header
-      <header className="header">
-        <h1 className="library-title">📚 Welcome to the Library</h1>
-      </header> */}
-
-      {/* Page title */}
-      <h2 className="page-title">Study</h2>
+      {/* Page heading */}
+      <h2 className="study-page-title">Study</h2>
 
       {/* Grid of categories */}
-      <div className="category-grid">
+      <div className="study-category-grid">
         {categories.map((cat) => (
           <div
             key={cat}
-            className="category-card"
+            className="study-category-card"
             onClick={() =>
               navigate(`/study/${cat.toLowerCase().replace(/\s+/g, "-")}`)
             } // convert spaces → hyphens

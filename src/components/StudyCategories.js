@@ -8,8 +8,9 @@
 //  - Books arranged in grid: 12 slots per row (3 rows x 4 columns = shelf)
 //  - Each Book expands inline with dropdown details (overview, review, etc.)
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 // import TopBar from "./TopBar";
 import Book from "./Book"; // Book card with dropdown details
 import dashboardBg from "./image/dashboard-bg.jpg";
@@ -20,7 +21,7 @@ import "./StudyPage.css"; // reuse styling for categories
    Fields: title, author, publisher, stock, overview, review
 ----------------------------------------------------------- */
 const rawStudyBooks = {
-  math: [
+  mathematics: [
     {
       title: "Calculus Made Easy",
       author: "Silvanus Thompson",
@@ -102,183 +103,6 @@ const rawStudyBooks = {
       review: "Short and useful.",
     },
   ],
-
-  science: [
-    {
-      title: "A Brief History of Time",
-      author: "Stephen Hawking",
-      publisher: "Bantam",
-      stock: "In Stock",
-      overview: "Cosmology explained for a general audience.",
-      review: "Mind-bending and clear.",
-    },
-    {
-      title: "The Selfish Gene",
-      author: "Richard Dawkins",
-      publisher: "Oxford",
-      stock: "In Stock",
-      overview: "Evolution explained through gene-centered view.",
-      review: "Fascinating perspective.",
-    },
-    {
-      title: "Astrophysics for People in a Hurry",
-      author: "Neil deGrasse Tyson",
-      publisher: "Norton",
-      stock: "Out of Stock",
-      overview: "Quick guide to space, time, and the universe.",
-      review: "Engaging and concise.",
-    },
-    {
-      title: "The Gene",
-      author: "Siddhartha Mukherjee",
-      publisher: "Scribner",
-      stock: "In Stock",
-      overview: "Story of genes and genetic science.",
-      review: "Compelling and detailed.",
-    },
-    {
-      title: "Cosmos",
-      author: "Carl Sagan",
-      publisher: "Random House",
-      stock: "In Stock",
-      overview: "History of the universe told with wonder.",
-      review: "Poetic and scientific.",
-    },
-    {
-      title: "Six Easy Pieces",
-      author: "Richard Feynman",
-      publisher: "Basic Books",
-      stock: "In Stock",
-      overview: "Introduction to physics lectures.",
-      review: "Brilliantly simple.",
-    },
-    {
-      title: "Silent Spring",
-      author: "Rachel Carson",
-      publisher: "Houghton Mifflin",
-      stock: "In Stock",
-      overview: "Environmental science classic about pesticides.",
-      review: "Changed the world.",
-    },
-    {
-      title: "The Elegant Universe",
-      author: "Brian Greene",
-      publisher: "Norton",
-      stock: "Out of Stock",
-      overview: "String theory and modern physics explained.",
-      review: "Deep and imaginative.",
-    },
-    {
-      title: "Why We Sleep",
-      author: "Matthew Walker",
-      publisher: "Scribner",
-      stock: "In Stock",
-      overview: "Science of sleep and its importance.",
-      review: "Eye-opening.",
-    },
-    {
-      title: "The Origin of Species",
-      author: "Charles Darwin",
-      publisher: "John Murray",
-      stock: "In Stock",
-      overview: "Foundation of evolutionary biology.",
-      review: "Revolutionary work.",
-    },
-  ],
-
-  // Add 5 more study categories (history, economics, psychology, medicine, technology)
-  history: [
-    { 
-      title: "Guns, Germs, and Steel", 
-      author: "Jared Diamond", 
-      publisher: "W.W. Norton", 
-      stock: "In Stock", 
-      overview: "How environment shaped societies.", 
-      review: "Groundbreaking." 
-    },
-
-    { 
-      title: "Sapiens", 
-      author: "Yuval Noah Harari", 
-      publisher: "Harvill Secker", 
-      stock: "In Stock", 
-      overview: "A history of humankind.", 
-      review: "Thought-provoking." 
-    },
-
-    { 
-      title: "The Silk Roads", 
-      author: "Peter Frankopan",  
-      publisher: "Bloomsbury",
-      stock: "In Stock", 
-      overview: "Global history centered on Asia.", 
-      review: "Fresh perspective."
-     },
-
-    { 
-      title: "Postwar", 
-      author: "Tony Judt", 
-      publisher: "Penguin", 
-      stock: "Out of Stock", 
-      overview: "Europe after WWII.", 
-      review: "Detailed and vast." 
-    },
-
-    { 
-      title: "1776", 
-      author: "David McCullough", 
-      publisher: "Simon & Schuster", 
-      stock: "In Stock", 
-      overview: "American Revolution events.", 
-      review: "Engaging history." 
-    },
-
-    { 
-      title: "Team of Rivals", 
-      author: "Doris Kearns Goodwin", 
-      publisher: "Simon & Schuster", 
-      stock: "In Stock", 
-      overview: "Lincoln and his cabinet.", 
-      review: "Inspiring." 
-    },
-
-    { 
-      title: "The Wright Brothers", 
-      author: "David McCullough", 
-      publisher: "Simon & Schuster", 
-      stock: "In Stock", 
-      overview: "Biography of aviation pioneers.", 
-      review: "Well told."
-    },
-
-    { 
-      title: "The Crusades", 
-      author: "Thomas Asbridge",
-      publisher: "Penguin", 
-      stock: "In Stock", 
-      overview: "History of the Crusades.", 
-      review: "Comprehensive." 
-    },
-
-    { 
-      title: "The Cold War", 
-      author: "John Lewis Gaddis", 
-      publisher: "Penguin", 
-      stock: "Out of Stock", 
-      overview: "Story of the Cold War.", 
-      review: "Excellent narrative." 
-    },
-
-    { 
-      title: "The Roman Empire", 
-      author: "Mary Beard", 
-      publisher: "Profile Books", 
-      stock: "In Stock", 
-      overview: "Life in Rome.", 
-      review: "Lively and witty." 
-    },
-  ],
-
   economics: [
     { title: "Capital in the 21st Century", author: "Thomas Piketty", publisher: "Belknap Press", stock: "In Stock", overview: "Inequality and capital history.", review: "Groundbreaking work." },
     { title: "Freakonomics", author: "Steven Levitt", publisher: "HarperCollins", stock: "In Stock", overview: "Economic thinking applied to real life.", review: "Fun and smart." },
@@ -291,56 +115,575 @@ const rawStudyBooks = {
     { title: "Poor Economics", author: "Banerjee & Duflo", publisher: "PublicAffairs", stock: "In Stock", overview: "Study of poverty economics.", review: "Data-driven." },
     { title: "The Undercover Economist", author: "Tim Harford", publisher: "Oxford", stock: "In Stock", overview: "Economics in everyday life.", review: "Accessible." },
   ],
-
-  psychology: [
-    { title: "Man’s Search for Meaning", author: "Viktor Frankl", publisher: "Beacon Press", stock: "In Stock", overview: "Survival in concentration camps.", review: "Life-changing." },
-    { title: "Thinking, Fast and Slow", author: "Daniel Kahneman", publisher: "FSG", stock: "In Stock", overview: "Two systems of thought explained.", review: "Brilliant." },
-    { title: "Influence", author: "Robert Cialdini", publisher: "HarperCollins", stock: "In Stock", overview: "Science of persuasion.", review: "Classic and practical." },
-    { title: "The Power of Habit", author: "Charles Duhigg", publisher: "Random House", stock: "In Stock", overview: "How habits form and change.", review: "Insightful." },
-    { title: "Flow", author: "Mihaly Csikszentmihalyi", publisher: "Harper & Row", stock: "In Stock", overview: "Psychology of optimal experience.", review: "Inspiring." },
-    { title: "Drive", author: "Daniel Pink", publisher: "Riverhead", stock: "In Stock", overview: "What motivates people.", review: "Practical and modern." },
-    { title: "Grit", author: "Angela Duckworth", publisher: "Scribner", stock: "Out of Stock", overview: "Importance of passion and perseverance.", review: "Motivating." },
-    { title: "Emotional Intelligence", author: "Daniel Goleman", publisher: "Bantam", stock: "In Stock", overview: "Role of EQ in success.", review: "Important concept." },
-    { title: "Mindset", author: "Carol Dweck", publisher: "Random House", stock: "In Stock", overview: "Fixed vs growth mindset.", review: "Transformative." },
-    { title: "Behave", author: "Robert Sapolsky", publisher: "Penguin", stock: "In Stock", overview: "Biology of human behavior.", review: "Deep and comprehensive." },
+  physics: [
+    {
+      title: "Concepts of Physics Part 1",
+      author: "H.C. Verma",
+      publisher: "Bharati Bhawan",
+      stock: "In Stock",
+      overview: "Covers mechanics, waves, and optics.",
+      review: "Best for Class 11 students.",
+      className: "Class 11",
+    },
+    {
+      title: "Concepts of Physics Part 2",
+      author: "H.C. Verma",
+      publisher: "Bharati Bhawan",
+      stock: "In Stock",
+      overview: "Covers thermodynamics, electricity, and magnetism.",
+      review: "Essential for Class 12.",
+      className: "Class 12",
+    },
+    {
+      title: "Fundamentals of Physics",
+      author: "Halliday, Resnick & Walker",
+      publisher: "Wiley",
+      stock: "In Stock",
+      overview: "International standard text for physics.",
+      review: "Good for JEE/NEET prep.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Understanding Physics Mechanics",
+      author: "D.C. Pandey",
+      publisher: "Arihant",
+      stock: "In Stock",
+      overview: "Focus on mechanics for JEE.",
+      review: "Crisp and exam oriented.",
+      className: "Class 11",
+    },
+    {
+      title: "Problems in General Physics",
+      author: "I.E. Irodov",
+      publisher: "Mir Publishers",
+      stock: "Low Stock",
+      overview: "Challenging problems for advanced learners.",
+      review: "Best for Olympiad level.",
+      className: "Advanced",
+    },
+    {
+      title: "Physics for Class 11",
+      author: "NCERT",
+      publisher: "NCERT",
+      stock: "In Stock",
+      overview: "Official board textbook.",
+      review: "Simple and clear.",
+      className: "Class 11",
+    },
+    {
+      title: "Physics for Class 12",
+      author: "NCERT",
+      publisher: "NCERT",
+      stock: "In Stock",
+      overview: "Official board textbook.",
+      review: "Core for exams.",
+      className: "Class 12",
+    },
+    {
+      title: "Problems in Physics",
+      author: "S.S. Krotov",
+      publisher: "Mir Publishers",
+      stock: "Out of Stock",
+      overview: "Problems requiring deep thinking.",
+      review: "Excellent for self study.",
+      className: "Advanced",
+    },
+    {
+      title: "Objective Physics Vol 1",
+      author: "D.C. Pandey",
+      publisher: "Arihant",
+      stock: "In Stock",
+      overview: "Objective style Q&A.",
+      review: "Perfect for NEET.",
+      className: "Class 11",
+    },
+    {
+      title: "Objective Physics Vol 2",
+      author: "D.C. Pandey",
+      publisher: "Arihant",
+      stock: "In Stock",
+      overview: "Objective style Q&A for Class 12.",
+      review: "Good for practice.",
+      className: "Class 12",
+    },
   ],
 
-  medicine: [
-    { title: "The Emperor of All Maladies", author: "Siddhartha Mukherjee", publisher: "Scribner", stock: "In Stock", overview: "Biography of cancer.", review: "Masterful storytelling." },
-    { title: "Being Mortal", author: "Atul Gawande", publisher: "Metropolitan Books", stock: "In Stock", overview: "Medicine and end of life.", review: "Touching and real." },
-    { title: "The Immortal Life of Henrietta Lacks", author: "Rebecca Skloot", publisher: "Crown", stock: "Out of Stock", overview: "Story of HeLa cells.", review: "Powerful narrative." },
-    { title: "The Man Who Mistook His Wife for a Hat", author: "Oliver Sacks", publisher: "Summit Books", stock: "In Stock", overview: "Neurological case studies.", review: "Fascinating." },
-    { title: "Complications", author: "Atul Gawande", publisher: "Picador", stock: "In Stock", overview: "Doctor’s reflections on medicine.", review: "Candid and insightful." },
-    { title: "Stiff", author: "Mary Roach", publisher: "W.W. Norton", stock: "In Stock", overview: "History of human cadavers.", review: "Funny yet informative." },
-    { title: "Spillover", author: "David Quammen", publisher: "W.W. Norton", stock: "In Stock", overview: "Animal diseases crossing to humans.", review: "Prescient." },
-    { title: "Medical Apartheid", author: "Harriet A. Washington", publisher: "Doubleday", stock: "In Stock", overview: "History of medical experimentation on African Americans.", review: "Disturbing but essential." },
-    { title: "An American Sickness", author: "Elisabeth Rosenthal", publisher: "Penguin", stock: "Out of Stock", overview: "Healthcare system critique.", review: "Eye-opening." },
-    { title: "Gray’s Anatomy", author: "Henry Gray", publisher: "Longman", stock: "In Stock", overview: "Classic anatomy reference.", review: "Authoritative." },
+  chemistry: [
+    {
+      title: "Organic Chemistry",
+      author: "Morrison & Boyd",
+      publisher: "Pearson",
+      stock: "In Stock",
+      overview: "Detailed organic chemistry concepts.",
+      review: "Best for undergrads.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Concise Inorganic Chemistry",
+      author: "J.D. Lee",
+      publisher: "Oxford",
+      stock: "In Stock",
+      overview: "Covers inorganic chemistry systematically.",
+      review: "Must-have reference.",
+      className: "Class 12",
+    },
+    {
+      title: "Physical Chemistry",
+      author: "O.P. Tandon",
+      publisher: "GRB",
+      stock: "In Stock",
+      overview: "Covers physical chemistry in depth.",
+      review: "Good for entrance exams.",
+      className: "Class 11",
+    },
+    {
+      title: "NCERT Chemistry Class 11",
+      author: "NCERT",
+      publisher: "NCERT",
+      stock: "In Stock",
+      overview: "Board prescribed textbook.",
+      review: "Very reliable.",
+      className: "Class 11",
+    },
+    {
+      title: "NCERT Chemistry Class 12",
+      author: "NCERT",
+      publisher: "NCERT",
+      stock: "In Stock",
+      overview: "Board prescribed textbook.",
+      review: "Must study for exams.",
+      className: "Class 12",
+    },
+    {
+      title: "Problems in Physical Chemistry",
+      author: "Narendra Awasthi",
+      publisher: "Balaji",
+      stock: "In Stock",
+      overview: "Practice problems in physical chemistry.",
+      review: "Highly useful.",
+      className: "Advanced",
+    },
+    {
+      title: "Elementary Problems in Organic Chemistry",
+      author: "M.S. Chouhan",
+      publisher: "Balaji",
+      stock: "In Stock",
+      overview: "Objective questions for JEE.",
+      review: "Covers basics well.",
+      className: "Class 12",
+    },
+    {
+      title: "Advanced Problems in Organic Chemistry",
+      author: "Himanshu Pandey",
+      publisher: "GRB",
+      stock: "Out of Stock",
+      overview: "Tough problems for entrance tests.",
+      review: "Best for serious learners.",
+      className: "Advanced",
+    },
+    {
+      title: "Organic Chemistry",
+      author: "Paula Y. Bruice",
+      publisher: "Pearson",
+      stock: "In Stock",
+      overview: "Comprehensive coverage of organic chemistry.",
+      review: "International standard.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Modern ABC Chemistry",
+      author: "S.P. Jauhar",
+      publisher: "Modern",
+      stock: "In Stock",
+      overview: "Popular reference for board exams.",
+      review: "Good for Class 12.",
+      className: "Class 12",
+    },
   ],
 
-  technology: [
-    { title: "The Innovators", author: "Walter Isaacson", publisher: "Simon & Schuster", stock: "In Stock", overview: "History of computing pioneers.", review: "Fascinating stories." },
-    { title: "Hooked", author: "Nir Eyal", publisher: "Portfolio", stock: "In Stock", overview: "Building habit-forming products.", review: "Practical for startups." },
-    { title: "The Lean Startup", author: "Eric Ries", publisher: "Crown", stock: "In Stock", overview: "Startup growth principles.", review: "Must-read for entrepreneurs." },
-    { title: "Clean Code", author: "Robert C. Martin", publisher: "Prentice Hall", stock: "Out of Stock", overview: "Principles of writing maintainable code.", review: "Classic programming guide." },
-    { title: "Design Patterns", author: "Erich Gamma et al.", publisher: "Addison-Wesley", stock: "In Stock", overview: "Reusable software design solutions.", review: "Timeless resource." },
-    { title: "Artificial Intelligence", author: "Stuart Russell", publisher: "Pearson", stock: "In Stock", overview: "AI theory and applications.", review: "Comprehensive and rigorous." },
-    { title: "The Second Machine Age", author: "Brynjolfsson & McAfee", publisher: "Norton", stock: "In Stock", overview: "Impact of digital technologies.", review: "Insightful and important." },
-    { title: "Code", author: "Charles Petzold", publisher: "Microsoft Press", stock: "In Stock", overview: "Story of computer systems.", review: "Brilliantly simple." },
-    { title: "Algorithms", author: "Robert Sedgewick", publisher: "Addison-Wesley", stock: "Out of Stock", overview: "Classic algorithms reference.", review: "Well-structured." },
-    { title: "The Mythical Man-Month", author: "Frederick Brooks", publisher: "Addison-Wesley", stock: "In Stock", overview: "Software project management.", review: "Still relevant." },
+  biology: [
+    {
+      title: "Biology for Class 11",
+      author: "NCERT",
+      publisher: "NCERT",
+      stock: "In Stock",
+      overview: "Board prescribed textbook.",
+      review: "Essential base.",
+      className: "Class 11",
+    },
+    {
+      title: "Biology for Class 12",
+      author: "NCERT",
+      publisher: "NCERT",
+      stock: "In Stock",
+      overview: "Covers Class 12 syllabus.",
+      review: "Highly useful.",
+      className: "Class 12",
+    },
+    {
+      title: "Objective Biology",
+      author: "Dinesh",
+      publisher: "Dinesh Publications",
+      stock: "In Stock",
+      overview: "Multiple choice questions.",
+      review: "Great for NEET.",
+      className: "Class 11",
+    },
+    {
+      title: "Trueman's Biology Vol 1",
+      author: "Trueman",
+      publisher: "Trueman Publishers",
+      stock: "In Stock",
+      overview: "Detailed biology reference.",
+      review: "Great for JEE/NEET.",
+      className: "Class 11",
+    },
+    {
+      title: "Trueman's Biology Vol 2",
+      author: "Trueman",
+      publisher: "Trueman Publishers",
+      stock: "In Stock",
+      overview: "Covers Class 12 biology.",
+      review: "Highly recommended.",
+      className: "Class 12",
+    },
+    {
+      title: "Objective Biology",
+      author: "Pradeep",
+      publisher: "Pradeep Publications",
+      stock: "In Stock",
+      overview: "MCQ style question bank.",
+      review: "Covers all topics.",
+      className: "Class 12",
+    },
+    {
+      title: "Elementary Biology",
+      author: "K.N. Bhatia",
+      publisher: "S. Chand",
+      stock: "Out of Stock",
+      overview: "Simplified concepts.",
+      review: "Good for beginners.",
+      className: "Class 11",
+    },
+    {
+      title: "Molecular Biology of the Cell",
+      author: "Bruce Alberts",
+      publisher: "Garland Science",
+      stock: "In Stock",
+      overview: "Reference book on molecular biology.",
+      review: "Global standard.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Genetics: From Genes to Genomes",
+      author: "Hartwell et al.",
+      publisher: "McGraw Hill",
+      stock: "In Stock",
+      overview: "Modern genetics coverage.",
+      review: "Excellent detail.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Human Anatomy & Physiology",
+      author: "Elaine N. Marieb",
+      publisher: "Pearson",
+      stock: "In Stock",
+      overview: "Covers anatomy and physiology.",
+      review: "Good for med students.",
+      className: "Undergraduate",
+    },
+  ],
+
+  //  computerScience: [
+  //   {
+  //     title: "Introduction to Algorithms",
+  //     author: "Cormen, Leiserson, Rivest, Stein",
+  //     publisher: "MIT Press",
+  //     stock: "In Stock",
+  //     overview: "CLRS standard algorithms book.",
+  //     review: "Must-have reference.",
+  //     className: "Undergraduate",
+  //   },
+  //   {
+  //     title: "Computer Networks",
+  //     author: "Andrew S. Tanenbaum",
+  //     publisher: "Pearson",
+  //     stock: "In Stock",
+  //     overview: "Networking fundamentals.",
+  //     review: "Best networking reference.",
+  //     className: "Undergraduate",
+  //   },
+  //   {
+  //     title: "Operating System Concepts",
+  //     author: "Silberschatz, Galvin, Gagne",
+  //     publisher: "Wiley",
+  //     stock: "In Stock",
+  //     overview: "Covers OS principles.",
+  //     review: "Global standard.",
+  //     className: "Undergraduate",
+  //   },
+  //   {
+  //     title: "Artificial Intelligence: A Modern Approach",
+  //     author: "Russell & Norvig",
+  //     publisher: "Pearson",
+  //     stock: "In Stock",
+  //     overview: "AI theory and practice.",
+  //     review: "Comprehensive reference.",
+  //     className: "Postgraduate",
+  //   },
+  //   {
+  //     title: "Database System Concepts",
+  //     author: "Silberschatz, Korth",
+  //     publisher: "McGraw Hill",
+  //     stock: "In Stock",
+  //     overview: "Covers DBMS concepts.",
+  //     review: "Good reference.",
+  //     className: "Undergraduate",
+  //   },
+  //   {
+  //     title: "Programming in C",
+  //     author: "Dennis Ritchie",
+  //     publisher: "Prentice Hall",
+  //     stock: "In Stock",
+  //     overview: "Classic C programming book.",
+  //     review: "Great for beginners.",
+  //     className: "Undergraduate",
+  //   },
+  //   {
+  //     title: "Java: The Complete Reference",
+  //     author: "Herbert Schildt",
+  //     publisher: "McGraw Hill",
+  //     stock: "In Stock",
+  //     overview: "Java programming guide.",
+  //     review: "Very detailed.",
+  //     className: "Undergraduate",
+  //   },
+  //   {
+  //     title: "Python Crash Course",
+  //     author: "Eric Matthes",
+  //     publisher: "No Starch Press",
+  //     stock: "In Stock",
+  //     overview: "Learn Python fast.",
+  //     review: "Practical examples.",
+  //     className: "Beginners",
+  //   },
+  //   {
+  //     title: "Clean Code",
+  //     author: "Robert C. Martin",
+  //     publisher: "Prentice Hall",
+  //     stock: "In Stock",
+  //     overview: "Best practices in coding.",
+  //     review: "Great for developers.",
+  //     className: "Undergraduate",
+  //   },
+  //   {
+  //     title: "Compilers: Principles, Techniques & Tools",
+  //     author: "Aho, Lam, Sethi, Ullman",
+  //     publisher: "Pearson",
+  //     stock: "In Stock",
+  //     overview: "Dragon book for compilers.",
+  //     review: "Standard reference.",
+  //     className: "Postgraduate",
+  //   },
+  // ],
+
+  engineering: [
+    {
+      title: "Engineering Mechanics",
+      author: "Timoshenko & Young",
+      publisher: "McGraw Hill",
+      stock: "In Stock",
+      overview: "Foundation in mechanics.",
+      review: "Great book.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Strength of Materials",
+      author: "R.K. Bansal",
+      publisher: "Laxmi Publications",
+      stock: "In Stock",
+      overview: "Covers strength of materials.",
+      review: "Widely used.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Thermodynamics",
+      author: "P.K. Nag",
+      publisher: "Tata McGraw Hill",
+      stock: "In Stock",
+      overview: "Explains thermodynamics concepts.",
+      review: "Standard reference.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Fluid Mechanics",
+      author: "R.K. Bansal",
+      publisher: "Laxmi Publications",
+      stock: "In Stock",
+      overview: "Hydraulics & fluid mechanics.",
+      review: "Useful for exams.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Machine Design",
+      author: "R.S. Khurmi",
+      publisher: "S. Chand",
+      stock: "In Stock",
+      overview: "Covers machine design basics.",
+      review: "Good for B.Tech.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Electrical Engineering Fundamentals",
+      author: "D.P. Kothari",
+      publisher: "McGraw Hill",
+      stock: "In Stock",
+      overview: "Basics of electrical engineering.",
+      review: "Very useful.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Civil Engineering Materials",
+      author: "Sham Tickoo",
+      publisher: "Pearson",
+      stock: "Out of Stock",
+      overview: "Civil construction materials.",
+      review: "Reference guide.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Signals and Systems",
+      author: "Alan V. Oppenheim",
+      publisher: "Prentice Hall",
+      stock: "In Stock",
+      overview: "Fundamentals of signals.",
+      review: "Excellent clarity.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Control Systems Engineering",
+      author: "Nagrath & Gopal",
+      publisher: "New Age International",
+      stock: "In Stock",
+      overview: "Feedback & control.",
+      review: "Well explained.",
+      className: "Undergraduate",
+    },
+    {
+      title: "Introduction to Flight",
+      author: "John D. Anderson",
+      publisher: "McGraw Hill",
+      stock: "In Stock",
+      overview: "Aerospace fundamentals.",
+      review: "Very interesting.",
+      className: "Undergraduate",
+    },
+  ],
+
+  law: [
+    {
+      title: "Constitution of India",
+      author: "P.M. Bakshi",
+      publisher: "Universal Law Publishing",
+      stock: "In Stock",
+      overview: "Explains Indian Constitution.",
+      review: "Fundamental reference.",
+      className: "Law Undergraduate",
+    },
+    {
+      title: "Introduction to Jurisprudence",
+      author: "Salmond",
+      publisher: "Sweet & Maxwell",
+      stock: "In Stock",
+      overview: "Philosophy of law.",
+      review: "Classic text.",
+      className: "Law Undergraduate",
+    },
+    {
+      title: "Principles of Mercantile Law",
+      author: "Avtar Singh",
+      publisher: "Eastern Book Company",
+      stock: "In Stock",
+      overview: "Covers business law.",
+      review: "Widely used.",
+      className: "Law Undergraduate",
+    },
+    {
+      title: "Constitutional Law of India",
+      author: "J.N. Pandey",
+      publisher: "Central Law Agency",
+      stock: "In Stock",
+      overview: "Detailed coverage of Indian constitutional law.",
+      review: "Highly recommended.",
+      className: "Law Undergraduate",
+    },
+    {
+      title: "International Law",
+      author: "S.K. Kapoor",
+      publisher: "Central Law Publications",
+      stock: "In Stock",
+      overview: "Explains international legal principles.",
+      review: "Good coverage.",
+      className: "Law Postgraduate",
+    },
+    {
+      title: "Criminal Law",
+      author: "K.D. Gaur",
+      publisher: "LexisNexis",
+      stock: "In Stock",
+      overview: "Detailed Indian penal code.",
+      review: "Standard reference.",
+      className: "Law Undergraduate",
+    },
+    {
+      title: "Law of Evidence",
+      author: "Batuk Lal",
+      publisher: "Central Law Agency",
+      stock: "In Stock",
+      overview: "Details law of evidence in India.",
+      review: "Important book.",
+      className: "Law Undergraduate",
+    },
+    {
+      title: "Environmental Law",
+      author: "S.C. Shastri",
+      publisher: "Eastern Book Company",
+      stock: "Out of Stock",
+      overview: "Focuses on environmental issues.",
+      review: "Well written.",
+      className: "Law Postgraduate",
+    },
+    {
+      title: "Family Law in India",
+      author: "Paras Diwan",
+      publisher: "Allahabad Law Agency",
+      stock: "In Stock",
+      overview: "Marriage, divorce, inheritance laws.",
+      review: "Good detail.",
+      className: "Law Undergraduate",
+    },
+    {
+      title: "Labour and Industrial Law",
+      author: "P.L. Malik",
+      publisher: "Eastern Book Company",
+      stock: "In Stock",
+      overview: "Industrial & labour law.",
+      review: "Important for practice.",
+      className: "Law Postgraduate",
+    },
   ],
 };
 
 /* Categories list (matches StudyPage.js routes) */
 const categoriesList = [
-  "math",
-  "science",
-  "history",
+  "mathematics",
   "economics",
-  "psychology",
-  "medicine",
-  "technology",
+  "physics",
+  "chemistry",
+  "biology",
+  // "computerScience",
+  "engineering",
+  "law",
 ];
 
 /* Utility: format keys → display names */
@@ -350,12 +693,29 @@ const displayName = (k) =>
 export default function StudyCategories() {
   const { category } = useParams(); // get /study/:category
   const navigate = useNavigate();
+  const location = useLocation(); // used for history management
 
   const key = (category || "").toLowerCase(); // e.g. "math"
   const books = rawStudyBooks[key] || []; // books for that category
 
+  // eslint-disable-next-line no-unused-vars
+   const [cart, setCart] = useState([]); // Track added-to-cart books
+   
+  /* ---------------- Add to Cart Handler ---------------- */
+  const handleAddToCart = (book) => {
+    setCart((prevCart) => [...prevCart, book]);
+    console.log("Added to cart:", book.title);
+  };
+    // Clear history when returning to dashboard
+    useEffect(() => {
+      if (location.state?.fromDashboard) {
+        window.history.replaceState({}, document.title);
+      }
+    }, [location]);
+
   return (
     <div
+      className="study-container"
       style={{
         minHeight: "100vh",
         backgroundImage: `url(${dashboardBg})`,
@@ -367,54 +727,73 @@ export default function StudyCategories() {
         position: "relative",
       }}
     >
-      {/* TopBar icons
-      <TopBar />  */}
-      <div className="fiction-overlay" />
+      <div className="study-overlay" />
 
       {/* Layout split: Left panel vs Right content */}
-      <div className="fiction-categories-container">
-        <div className="fiction-layout">
+      <div className="study-categories-container">
+        <div className="study-layout">
           {/* ---------------- LEFT PANEL ---------------- */}
-          <aside className="left-panel">
-            {/* Section switch */}
-            <div className="section-switch">
-              <button onClick={() => navigate("/fiction")}>Fiction</button>
-              <button onClick={() => navigate("/nonfiction")}>Non-Fiction</button>
-              <button className="active" onClick={() => navigate("/study")}>
-                Study
+          <aside className="study-left-panel">
+            {/* Dashboard link */}
+            <div className="study-dashboard-link">
+              <button
+              className="study-dashboard-button"
+               onClick={() => navigate("/dashboard")}
+              >
+                Dashboard
               </button>
-            </div>
+              </div>
 
             {/* Categories list */}
-            <h3 style={{ marginTop: 8 }}>Categories</h3>
-            <ul className="left-categories">
-              {categoriesList.map((cat) => (
-                <li key={cat}>
-                  <Link to={`/study/${cat}`} className="category-link">
-                    {displayName(cat)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </aside>
+                       <h3 className="study-left-title" style={{ marginTop: 8 }}>
+                         Study Categories
+                       </h3>
+                       <ul className="study-left-categories">
+                         {categoriesList.map((cat) => (
+                           <li key={cat}>
+                             <Link
+                               to={`/study/${cat}`}
+                               className="study-category-link"
+                             >
+                               {displayName(cat)}
+                             </Link>
+                           </li>
+                         ))}
+                       </ul>
+                       </aside>
 
-          {/* ---------------- RIGHT CONTENT ---------------- */}
-          <section className="right-content">
-            <h2>{key ? `${displayName(key)} — Books` : "Select a category"}</h2>
+          {/* {/* ---------------- RIGHT CONTENT ---------------- */}
+          <section className="study-right-content">
+            {/* Category heading */}
+            <h2
+              className={`study-category-title ${
+                key === "chemistry" ? "fantasy-heading" : ""
+              }`}
+            >
+              {key ? `${displayName(key)} Books` : "Select a category"}
+            </h2>
 
+            {/* If no category selected */}
             {!key ? (
               <p>Please choose a category from the left.</p>
             ) : (
-              <div className="shelves">
-                {/* 12 slots per row (grid of 3 rows × 4 cols) */}
-                <div className="book-grid">
-                  {books.map((b, i) => (
-                    <Book key={i} book={b} />
+              <div className="study-shelves">
+                {/* Book grid: 9 slots per shelf (3 per row) */}
+                <div className="study-book-grid">
+                  {books.map((b, idx) => (
+                    <div className="book-card-wrapper" key={idx}>
+                      {/* Pass handleAddToCart to Book */}
+                      <Book book={b} onAddToCart={handleAddToCart} />
+                    </div>
                   ))}
-                  {/* Fill empty slots so grid always shows 12 places */}
-                  {Array.from({ length: 12 - (books.length % 12) }).map(
+
+                  {/* Empty slots to fill complete grid */}
+                  {Array.from({ length: (9 - (books.length % 9)) % 9 }).map(
                     (_, idx) => (
-                      <div key={`empty-${idx}`} className="book-slot empty" />
+                      <div
+                        key={`empty-${idx}`}
+                        className="study-book-slot empty"
+                      />
                     )
                   )}
                 </div>

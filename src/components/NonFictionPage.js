@@ -1,11 +1,11 @@
-// // // // src/components/FictionPage.js
+// // // // src/components/nonfictionPage.js
 // // // import React from "react";
-// // // import "./NonFictionPage.css"; // custom styling for Fiction categories
+// // // import "./NonnonfictionPage.css"; // custom styling for nonfiction categories
 // // // import { Link } from "react-router-dom"; // in case you want links later
 
-// // // const NonFictionPage = () => {
+// // // const NonnonfictionPage = () => {
 // // //   return (
-// // //     <div className="nonfiction-container">
+// // //     <div className="nonnonfiction-container">
 // // //       {/* Header with icons */}
 // // //       <header className="header">
 // // //         <h1 className="library-title">📚 Welcome to the Library</h1>
@@ -16,13 +16,13 @@
 // // //         </div>
 // // //       </header>
 
-// // //       {/* Categories for Non Fiction */}
-// // //       <h2 className="page-title">Non Fiction Categories</h2>
+// // //       {/* Categories for Non nonfiction */}
+// // //       <h2 className="page-title">Non nonfiction Categories</h2>
 // // //       <div className="categories-grid">
 // // //         <div className="category-card">Biographies</div>
 // // //         <div className="category-card">Self Help</div>
 // // //         <div className="category-card">History</div>
-// // //         <div className="category-card">Science Fiction</div>
+// // //         <div className="category-card">Science nonfiction</div>
 // // //         <div className="category-card">Travel</div>
 // // //         <div className="category-card">Cookbooks</div>
 // // //         <div className="category-card">Philosophy</div>
@@ -31,21 +31,21 @@
 // // //   );
 // // // };
 
-// // // export default NonFictionPage;
+// // // export default NonnonfictionPage;
 
 
 
 
 // // // ==========================
-// // // File: src/components/NonFictionPage.js
+// // // File: src/components/NonnonfictionPage.js
 // // // ==========================
 // // // PURPOSE:
-// // // - After clicking "Non-Fiction" on dashboard, show 7 categories
-// // // - Clicking a category → /nonfiction/:category (NonFictionCategories.js)
+// // // - After clicking "Non-nonfiction" on dashboard, show 7 categories
+// // // - Clicking a category → /nonnonfiction/:category (NonnonfictionCategories.js)
 
 // // import React from "react";
 // // import { useNavigate } from "react-router-dom";
-// // import "./NonFictionPage.css";
+// // import "./NonnonfictionPage.css";
 // // import dashboardBg from "./image/dashboard-bg.jpg";
 // // import TopBar from "./TopBar";
 // // import BackButton from "./BackButton";
@@ -66,15 +66,15 @@
 // //   transition: "0.3s",
 // // };
 
-// // export default function NonFictionPage() {
+// // export default function NonnonfictionPage() {
 // //   const navigate = useNavigate();
 
-// //   // Using your list (kept "Science Fiction" as requested)
+// //   // Using your list (kept "Science nonfiction" as requested)
 // //   const categories = [
 // //     "Biographies",
 // //     "Self Help",
 // //     "History",
-// //     "Science Fiction",
+// //     "Science nonfiction",
 // //     "Travel",
 // //     "Cookbooks",
 // //     "Philosophy",
@@ -94,14 +94,14 @@
 // //         </div>
 // //       </header>
 
-// //       <h2 className="page-title">Non-Fiction Categories</h2>
+// //       <h2 className="page-title">Non-nonfiction Categories</h2>
 
 // //       <div className="category-grid">
 // //         {categories.map((cat) => (
 // //           <div
 // //             key={cat}
 // //             className="category-card"
-// //             onClick={() => navigate(`/nonfiction/${cat.toLowerCase()}`)}
+// //             onClick={() => navigate(`/nonnonfiction/${cat.toLowerCase()}`)}
 // //           >
 // //             {cat}
 // //           </div>
@@ -118,17 +118,17 @@
 
 
 
-// // File: src/components/NonFictionPage.js
+// // File: src/components/NonnonfictionPage.js
 // // ========================================
 // // PURPOSE:
-// // - After clicking "Non-Fiction" on dashboard, show 7 categories
-// // - Clicking → /nonfiction/:category (NonFictionCategories.js)
+// // - After clicking "Non-nonfiction" on dashboard, show 7 categories
+// // - Clicking → /nonnonfiction/:category (NonnonfictionCategories.js)
 
 // import React from "react";
 // import { useNavigate } from "react-router-dom";
 // import TopBar from "./TopBar";
 // import BackButton from "./BackButton";
-// import "./NonFictionPage.css";
+// import "./NonnonfictionPage.css";
 // import dashboardBg from "./image/dashboard-bg.jpg";
 
 // // // Reusable card styling (similar to StudyPage)
@@ -147,10 +147,10 @@
 // //   transition: "0.3s",
 // // };
 
-// export default function NonFictionPage() {
+// export default function NonnonfictionPage() {
 //   const navigate = useNavigate();
 
-//   // Non-Fiction categories
+//   // Non-nonfiction categories
 //   const categories = [
 //     "Biography",
 //     "History",
@@ -163,7 +163,7 @@
 
 //   return (
 //     <div
-//       className="nonfiction.container"
+//       className="nonnonfiction.container"
 //       style={{ backgroundImage: `url(${dashboardBg})` }}
 //     >
 //       {/* TopBar icons */}
@@ -180,7 +180,7 @@
 //       </header>
 //        */}
 //       {/* Page title */}
-//       <h2 className="page-title">Non-Fiction</h2>
+//       <h2 className="page-title">Non-nonfiction</h2>
       
 //       {/* Grid of categories */}
 //       <div className="category-grid">
@@ -188,7 +188,7 @@
 //           <div
 //             key={cat}
 //             className="category-card"
-//             onClick={() => navigate(`/nonfiction/${cat.toLowerCase().replace(/\s+/g, "-")}`)}
+//             onClick={() => navigate(`/nonnonfiction/${cat.toLowerCase().replace(/\s+/g, "-")}`)}
 //           >
 //             {cat}
 //           </div>
@@ -204,30 +204,29 @@
 
 
 
-// File: src/components/NonFictionPage.js
+// File: src/components/NonnonfictionPage.js
 // ==================================================
 // PURPOSE:
-// - Display all Non-Fiction categories after clicking "Non-Fiction" on the dashboard
-// - Clicking on a category navigates to /nonfiction/:category handled by NonFictionCategories.js
+// - Display all NonFictionPage.css categories after clicking "NonFiction" on the dashboard
+// - Clicking on a category navigates to /nonnonfiction/:category handled by NonnonfictionCategories.js
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import TopBar from "./components/TopBar";
-import "./NonFictionPage.css";
+import "./NonFictionPage.css"; // CSS file for styling
 import dashboardBg from "./image/dashboard-bg.jpg";
 
 export default function NonFictionPage() {
   const navigate = useNavigate();
 
-  // List of Non-Fiction categories
+  // List of nonfiction categories
   const categories = [
-    "Biography",
-    "Self-Help",
+   "Biography",
     "History",
     "Science",
-    "Technology",
-    "Philosophy",
+    "Self-Help",
+    "True Crime",
     "Travel",
+    "Philosophy",
   ];
 
   return (
@@ -235,18 +234,15 @@ export default function NonFictionPage() {
       className="nonfiction-container"
       style={{ backgroundImage: `url(${dashboardBg})` }}
     >
-      {/* Top bar icons 
-      <TopBar /> */}
-
-      {/* Page title */}
-      <h2 className="page-title">Non-Fiction</h2>
+      {/* Page heading */}
+      <h2 className="nonfiction-page-title">Non Fiction</h2>
 
       {/* Grid of categories */}
-      <div className="category-grid">
+      <div className="nonfiction-category-grid">
         {categories.map((cat) => (
           <div
             key={cat}
-            className="category-card"
+            className="nonfiction-category-card"
             onClick={() =>
               navigate(`/nonfiction/${cat.toLowerCase().replace(/\s+/g, "-")}`)
             } // convert spaces → hyphens
