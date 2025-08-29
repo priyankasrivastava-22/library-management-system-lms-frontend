@@ -76,8 +76,6 @@ Got it 👍 I’ll draft a **README.md** for your project till the current stage
 
 Here’s a good version:
 
----26-28-25---
-
 # 📚 Library Management System (Frontend)
 
 This is a **Library Management System frontend** built using **React.js**.
@@ -207,7 +205,3 @@ src/
 │   │   └── dashboard-bg.jpg # Background image used in login/dashboard
 │   ├── FictionPage.css     # Styles for Fiction page
 │   ├── Login.css           # Styles for Login page
-
-
-
----26-08-25---
