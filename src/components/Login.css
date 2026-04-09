@@ -1,6 +1,5 @@
 /* File: src/components/Login.css */
-
-/* 🔵 Login circle (same style as dashboard circles) */
+/* Login circle (same style as dashboard circles) */
 .login-circle {
   width: 100px;
   height: 100px;
@@ -24,7 +23,7 @@
   transform: scale(1.1);
 }
 
-/* 📝 Login form styling */
+/* Login form styling */
 .login-form {
   background: rgba(0, 0, 0, 0.7);
   padding: 30px;
@@ -61,9 +60,14 @@
   background: #555;
 }
 
-/* ❌ Error message */
+/* Error message */
 .error-msg {
   color: red;
   font-size: 14px;
   margin-top: 5px;
+}
+
+.login-form p {
+  color: #ccc;
+  font-size: 14px;
 }

@@ -1,5 +1,4 @@
 /* File: src/components/Book.css */
-
 /* Card container - will fill the grid column */
 .book-card {
   background: rgba(255, 255, 255, 0.70); /* light card so text is readable on dark bg */
