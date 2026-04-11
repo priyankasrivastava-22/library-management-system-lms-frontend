@@ -137,17 +137,13 @@ MIT License
 ## UI Screenshots
 
 ### Login Page
-[alt text](image.png)
----
+![alt text](image.png)
 
 ### Dashboard
-[alt text](image-1.png)
----
+![alt text](image-1.png)
 
 ### Fiction Categories
-[alt text](image-2.png)
----
+![alt text](image-2.png)
 
 ### Cart
-[alt text](image-3.png)
----
+![alt text](image-3.png)
