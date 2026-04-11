@@ -1,6 +1,6 @@
 #  Library Management System - Frontend
-This is the **React-based frontend** for the Library Management System (LMS).  
-It provides a user interface for students to browse books, manage cart, and track their library activity.
+*This is the React-based frontendfor the Library Management System (LMS).*
+*It provides a user interface for students to browse books, manage cart, and track their library activity.*
 ---
 
 ## Features
@@ -25,81 +25,65 @@ It provides a user interface for students to browse books, manage cart, and trac
 ## Project Structure
 
 library-management-system-lms-frontend/
-│
 ├── build/                         # Production build files (auto-generated)
 ├── node_modules/                  # Installed dependencies (ignored in Git)
 ├── public/                        # Static public files
 │   ├── index.html
 │   └── favicon.ico
-│
 ├── src/                           # Main React source code
-│   │
 │   ├── components/                # All UI components (no separate folders used)
-│   │   │
 │   │   ├── image/                 # Background images used in UI
 │   │   │   ├── bg.jpg
 │   │   │   └── dashboard-bg.jpg
-│   │   │
 │   │   ├── Book.js                # Book card component (expand + add to cart)
 │   │   ├── Book.css
-│   │   │
 │   │   ├── Dashboard.js           # Main landing page after login
 │   │   ├── Dashboard.css
-│   │   │
 │   │   ├── Login.js               # Login + Register UI
 │   │   ├── Login.css
-│   │   │
 │   │   ├── FictionPage.js
 │   │   ├── FictionPage.css
 │   │   ├── FictionCategories.js   # Fetch + filter fiction books
-│   │   │
 │   │   ├── NonFictionPage.js
 │   │   ├── NonFictionPage.css
 │   │   ├── NonFictionCategories.js
-│   │   │
 │   │   ├── StudyPage.js
 │   │   ├── StudyPage.css
 │   │   ├── StudyCategories.js
-│   │   │
 │   │   ├── TopBar.js              # Cart, Status, Profile dropdown
 │   │   ├── TopBar.css
-│   │
 │   ├── App.js                     # Main routing (React Router)
 │   ├── App.css
 │   ├── index.js                   # Entry point
 │   ├── index.css
-│   │
 │   ├── App.test.js                # Default test file
 │   ├── setupTests.js
 │   ├── reportWebVitals.js
 │   └── logo.svg
-│
 ├── .gitignore
 ├── package.json
 ├── package-lock.json
 ├── LICENSE
 └── README.md
 
-### Note
-This project currently keeps all components in a single folder (`components/`) for simplicity.  
+Note: This project currently keeps all components in a single folder (`components/`) for simplicity.  
 In future versions, it can be refactored into a more scalable structure (e.g., separating pages, services, and hooks).
+
 ---
 
 ## Setup Instructions
 
-### Install dependencies
+#### Install dependencies
 ```bash
 npm install
 ```
----
 
-### Run the application
+#### Run the application
 ```bash
 npm start
 ```
----
 
-### Access in browser
+#### Access in browser
 ```
 http://localhost:3000
 ```
@@ -141,26 +125,29 @@ Example APIs used:
 
 ## Author
 Priyanka Srivastava
-MCA Student | React Developer | DevOps Enthusiast
+MCA Student | Software Engineer
+
 ---
 
 ## License
 MIT License
 
+---
+
 ## UI Screenshots
 
 ### Login Page
-![Login]![alt text](image.png)
+[alt text](image.png)
 ---
 
 ### Dashboard
-![Dashboard]![alt text](image-1.png)
+[alt text](image-1.png)
 ---
 
 ### Fiction Categories
-![Fiction]![alt text](image-2.png)
+[alt text](image-2.png)
 ---
 
 ### Cart
-![Cart]![alt text](image-3.png)
+[alt text](image-3.png)
 ---
