@@ -120,12 +120,12 @@ export default function Login() {
         }}
       >
         {/* left text */}
-        <div style={{ color: "white", fontSize: "48px" }}>
+        <div style={{ color: "white", fontSize: "48px", marginLeft: "150px" }}>
           Welcome to the Library
         </div>
 
         {/* right side */}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, display: "flex", justifyContent: "center"}}>
 
           {!showForm ? (
             <div className="login-circle" onClick={() => setShowForm(true)}>

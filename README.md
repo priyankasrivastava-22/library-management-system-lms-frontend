@@ -1,209 +1,166 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-"Updated UI: circular sections, smaller login button, added BackButton & TopBar components"
-Got it 👍 I’ll draft a **README.md** for your project till the current stage (Frontend Library Management System with circular sections, smaller login button, category pages, etc.).
-
-Here’s a good version:
-
-# 📚 Library Management System (Frontend)
-
-This is a **Library Management System frontend** built using **React.js**.
-It provides a clean and interactive UI for users to login and explore different categories of books (Fiction, Non-Fiction, and Study).
-
+#  Library Management System - Frontend
+This is the **React-based frontend** for the Library Management System (LMS).  
+It provides a user interface for students to browse books, manage cart, and track their library activity.
 ---
 
-## ✨ Features Implemented So Far
-
-* **Login Page**
-
-  * Background image with a transparent login circle.
-  * Smaller, centered **Login button**.
-
-* **Dashboard**
-
-  * Three categories displayed in **circular sections**:
-
-    * Fiction
-    * Non-Fiction
-    * Study
-
-* **Category Pages**
-
-  * Fiction, Non-Fiction, and Study books listed.
-  * Back button available for easy navigation.
-
-* **UI Enhancements**
-
-  * Circular styled sections instead of square/boxy layout.
-  * TopBar and BackButton components for better navigation.
-
----
-
-## 🛠️ Tech Stack
-
-* **Frontend**: React.js
-* **Styling**: CSS
-* **Version Control**: Git & GitHub
-
----
-
-## 📂 Project Structure (Important Files)
-
-```
-src/
-├── App.js
-├── components/
-│   ├── Dashboard.js
-│   ├── FictionCategories.js
-│   ├── FictionPage.js
-│   ├── NonFictionCategories.js
-│   ├── NonFictionPage.js
-│   ├── StudyCategories.js
-│   ├── StudyPage.js
-│   ├── Login.js
-│   ├── BackButton.js
-│   ├── TopBar.js
-│   ├── image/
-│       └── dashboard-bg.jpg
-│   ├── FictionPage.css
-│   ├── Login.css
-```
-
----
-
-## 🚀 Getting Started
-
-1. Clone this repository:
-
-   ```bash
-   git clone <your-repo-url>
-   cd library-management-system-lms-frontend
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the frontend server:
-
-   ```bash
-   npm start
-   ```
-
-4. Open in browser:
-
-   ```
-   http://localhost:3000
-   ```
-
+## Features
+- User Authentication (Login / Register)
+- Dashboard navigation (Fiction, Non-Fiction, Study)
+- Category-based book browsing
+- Add books to cart
+- Cart management with limit (max 5 books)
+- Status tracking (issued books, return date)
+- User profile view
+- Responsive UI with modern design
 ---
 
 ## Tech Stack
-
- * React.js → For building UI components.
-
- * CSS → For styling the login page, dashboard, and book categories.
-
- * Git & GitHub → For version control.
-
+- React.js
+- React Router
+- CSS
+- LocalStorage (for cart & session handling)
+- Fetch API (backend communication)
 ---
 
-## 📌 Next Steps (Planned)
+## Project Structure
 
-* Add **Admin Dashboard** (for managing books).
-* Connect with **Backend API** for authentication & data.
-* Improve **responsiveness** for mobile devices.
+library-management-system-lms-frontend/
+│
+├── build/                         # Production build files (auto-generated)
+├── node_modules/                  # Installed dependencies (ignored in Git)
+├── public/                        # Static public files
+│   ├── index.html
+│   └── favicon.ico
+│
+├── src/                           # Main React source code
+│   │
+│   ├── components/                # All UI components (no separate folders used)
+│   │   │
+│   │   ├── image/                 # Background images used in UI
+│   │   │   ├── bg.jpg
+│   │   │   └── dashboard-bg.jpg
+│   │   │
+│   │   ├── Book.js                # Book card component (expand + add to cart)
+│   │   ├── Book.css
+│   │   │
+│   │   ├── Dashboard.js           # Main landing page after login
+│   │   ├── Dashboard.css
+│   │   │
+│   │   ├── Login.js               # Login + Register UI
+│   │   ├── Login.css
+│   │   │
+│   │   ├── FictionPage.js
+│   │   ├── FictionPage.css
+│   │   ├── FictionCategories.js   # Fetch + filter fiction books
+│   │   │
+│   │   ├── NonFictionPage.js
+│   │   ├── NonFictionPage.css
+│   │   ├── NonFictionCategories.js
+│   │   │
+│   │   ├── StudyPage.js
+│   │   ├── StudyPage.css
+│   │   ├── StudyCategories.js
+│   │   │
+│   │   ├── TopBar.js              # Cart, Status, Profile dropdown
+│   │   ├── TopBar.css
+│   │
+│   ├── App.js                     # Main routing (React Router)
+│   ├── App.css
+│   ├── index.js                   # Entry point
+│   ├── index.css
+│   │
+│   ├── App.test.js                # Default test file
+│   ├── setupTests.js
+│   ├── reportWebVitals.js
+│   └── logo.svg
+│
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── LICENSE
+└── README.md
 
+### Note
+This project currently keeps all components in a single folder (`components/`) for simplicity.  
+In future versions, it can be refactored into a more scalable structure (e.g., separating pages, services, and hooks).
+---
 
-src/
-├── App.js                  # Main entry point that controls routing
-├── components/
-│   ├── Login.js            # Login page UI with circular login button
-│   ├── Dashboard.js        # Main dashboard showing Fiction/Non-Fiction/Study
-│   ├── FictionCategories.js
-│   ├── FictionPage.js      # Fiction books listing
-│   ├── NonFictionCategories.js
-│   ├── NonFictionPage.js   # Non-Fiction books listing
-│   ├── StudyCategories.js
-│   ├── StudyPage.js        # Study books listing
-│   ├── BackButton.js       # Reusable Back button component
-│   ├── TopBar.js           # Top bar navigation
-│   ├── image/
-│   │   └── dashboard-bg.jpg # Background image used in login/dashboard
-│   ├── FictionPage.css     # Styles for Fiction page
-│   ├── Login.css           # Styles for Login page
+## Setup Instructions
+
+### Install dependencies
+```bash
+npm install
+```
+---
+
+### Run the application
+```bash
+npm start
+```
+---
+
+### Access in browser
+```
+http://localhost:3000
+```
+---
+
+## Backend Connection
+This frontend connects to backend APIs running at:
+```
+http://localhost:5000
+```
+
+Example APIs used:
+* `/api/auth/login`
+* `/api/auth/register`
+* `/api/books`
+* `/api/transactions/user/:id`
+---
+
+## Business Logic (Frontend)
+* Max **5 books allowed** (Cart + Issued)
+* No duplicate books in cart
+* Real-time cart updates using localStorage
+* User session stored in localStorage
+---
+
+## Notes
+* Backend must be running before using frontend
+* Ensure correct API URL (`localhost:5000`)
+* User must login before accessing dashboard
+---
+
+## Future Enhancements
+* API integration with loading states
+* Error handling improvements
+* UI animations
+* Deployment (Netlify / Vercel)
+* Docker integration
+---
+
+## Author
+Priyanka Srivastava
+MCA Student | React Developer | DevOps Enthusiast
+---
+
+## License
+MIT License
+
+## UI Screenshots
+
+### Login Page
+![Login]![alt text](image.png)
+---
+
+### Dashboard
+![Dashboard]![alt text](image-1.png)
+---
+
+### Fiction Categories
+![Fiction]![alt text](image-2.png)
+---
+
+### Cart
+![Cart]![alt text](image-3.png)
+---
