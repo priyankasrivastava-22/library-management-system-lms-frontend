@@ -6,7 +6,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import API_URL from './config';
+import API_URL from '../config';
 import "./NonFictionPage.css"; // CSS file for styling
 import dashboardBg from "./image/dashboard-bg.jpg";
 

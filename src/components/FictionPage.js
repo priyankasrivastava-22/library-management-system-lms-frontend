@@ -7,7 +7,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./FictionPage.css"; // CSS file for styling
-import API_URL from './config';
+import API_URL from '../config';
 import dashboardBg from "./image/dashboard-bg.jpg";
 
 export default function FictionPage() {

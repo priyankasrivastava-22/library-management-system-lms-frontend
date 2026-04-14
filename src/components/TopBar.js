@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./TopBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import API_URL from './config';
+import API_URL from '../config';
 import { faShoppingCart, faChartBar, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function TopBar() {
