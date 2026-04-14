@@ -4,7 +4,7 @@
 import React from "react";
 // Import useLocation to track which page the user is currently viewing
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import API_URL from '../config';
+import API_URL from './config';
 
 // Import components
 import TopBar from "./components/TopBar";
