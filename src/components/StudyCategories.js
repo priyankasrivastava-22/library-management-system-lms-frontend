@@ -26,7 +26,8 @@ export default function StudyCategories() {
     fetch(`http://localhost:5000/api/books`)
       .then((res) => res.json())
       .then((data) => {
-        const filtered = data.filter(b => 
+        const bookList = data.books || [];
+        const filtered = bookList.filter(b => 
           b.section?.toLowerCase() === "study" && 
           b.category?.toLowerCase() === key.replace(/-/g, " ")
         );
@@ -76,7 +77,7 @@ export default function StudyCategories() {
           </ul>
         </aside>
         <section className="study-right-content">
-          <h2 className="study-category-title">{displayName(key)} Resources</h2>
+          <h2 className="study-category-title">{displayName(key)} Books </h2>
           <div className="study-book-grid">
             {books.map((book, index) => (
               <div key={index} className="book-card-wrapper">

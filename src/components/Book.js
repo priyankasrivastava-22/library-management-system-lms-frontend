@@ -6,6 +6,10 @@ const Book = ({ book, onAddToCart }) => {
   const [isOpen, setIsOpen] = useState(false);   // Track dropdown open state
   const [showTooltip, setShowTooltip] = useState(false); // Track tooltip hover
 
+  if (!book) {
+    return null; 
+  }
+
   return (
     <div className="book-card">
       {/* Header: Title + Dropdown icon */}
