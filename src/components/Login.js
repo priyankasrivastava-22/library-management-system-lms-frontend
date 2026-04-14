@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import bgImage from "./image/bg.jpg";
 import { useNavigate } from "react-router-dom";
 import API_URL from '../config';
 import "./Login.css";
+import bgImage from "./image/bg.jpg";
 import { FaUserCircle } from "react-icons/fa";
 
 export default function Login() {
