@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Book from "./Book"; 
-import API_URL from './config';
+import API_URL from '../config';
 import dashboardBg from "./image/dashboard-bg.jpg"; 
 import "./StudyPage.css"; // Pointing to the main CSS file for consistency
 
