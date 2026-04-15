@@ -25,7 +25,7 @@ export default function TopBar() {
 
     // Fetch Issued Books (Status) from Backend
     // Assuming user.id exists. Replace '1' with actual user ID if needed.
-    fetch(`http://localhost:5000/api/transactions/user/${savedUser.id || 1}`)
+    fetch(`${API_URL}/transactions/user/${savedUser.id || 1}`)
       .then(res => res.json())
       .then(data => setIssuedBooks(data))
       .catch(err => console.log("Status fetch error:", err));
