@@ -39,7 +39,7 @@ export default function NonFictionCategories() {
       });
 
     if (user.id) {
-      fetch(`${API_URL}/transactions/user/${user.id}`)
+      fetch(`${API_URL}/api/transactions/user/${user.id}`)
         .then(res => res.json())
         .then(data => setIssuedCount(data.length));
     }
