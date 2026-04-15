@@ -24,7 +24,7 @@ export default function StudyCategories() {
     if (!key) return;
     const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    fetch(`http://localhost:5000/api/books`)
+    fetch(`${API_URL}/books`)
       .then((res) => res.json())
       .then((data) => {
         const bookList = data.books || [];
@@ -36,7 +36,7 @@ export default function StudyCategories() {
       });
 
     if (user.id) {
-      fetch(`http://localhost:5000/api/transactions/user/${user.id}`)
+      fetch(`${API_URL}/transactions/user/${user.id}`)
         .then(res => res.json())
         .then(data => setIssuedCount(data.length));
     }
