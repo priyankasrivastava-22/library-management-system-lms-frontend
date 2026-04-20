@@ -13,24 +13,28 @@ export default function TopBar() {
 
   const CART_LIMIT = 5;
 
+  // STATES
+  const [showComplaintBox, setShowComplaintBox] = useState(false);
+  const [showFeedbackBox, setShowFeedbackBox] = useState(false);
+  const [text, setText] = useState("");
+  const [showEmailBox, setShowEmailBox] = useState(false);
+  const [showPasswordBox, setShowPasswordBox] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   // 1. Load Data on Mount
   useEffect(() => {
-    // Load User from localStorage (set this during login)
     const savedUser = JSON.parse(localStorage.getItem("user") || '{"name":"Guest","email":"guest@example.com"}');
     setUser(savedUser);
 
-    // Load Cart
     const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCart(savedCart);
 
-    // Fetch Issued Books (Status) from Backend
-    // Assuming user.id exists. Replace '1' with actual user ID if needed.
     fetch(`${API_URL}/api/transactions/user/${savedUser.id || 1}`)
       .then(res => res.json())
       .then(data => setIssuedBooks(data))
       .catch(err => console.log("Status fetch error:", err));
 
-    // Listen for storage changes (updates cart icon when adding books from other pages)
     const handleStorageChange = () => {
       setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
     };
@@ -51,6 +55,86 @@ export default function TopBar() {
 
   const isCartFull = (cart.length + issuedBooks.length) >= CART_LIMIT;
 
+  // HANDLERS
+  const handleComplaintSubmit = async () => {
+    try {
+      await fetch(`${API_URL}/api/complaints/raise`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?.id,
+          issue: text
+        }),
+      });
+    } catch (err) {
+      console.log("Complaint error:", err);
+    }
+    setShowComplaintBox(false);
+    setText("");
+  };
+
+  const handleFeedbackSubmit = async () => {
+    try {
+      await fetch(`${API_URL}/api/feedback/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?.id,
+          feedback: text
+        }),
+      });
+    } catch (err) {
+      console.log("Feedback error:", err);
+    }
+    setShowFeedbackBox(false);
+    setText("");
+  };
+
+  const handleEmailUpdate = async () => {
+    try {
+      await fetch(`${API_URL}/api/users/update-email`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user?.id,
+          email: email
+        }),
+      });
+
+      const updatedUser = { ...user, email };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+
+    } catch (err) {
+      console.log(err);
+    }
+
+    setShowEmailBox(false);
+    setEmail("");
+  };
+
+  const handlePasswordUpdate = async () => {
+    try {
+      await fetch(`${API_URL}/api/users/update-password`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user?.id,
+          password: password
+        }),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    setShowPasswordBox(false);
+    setPassword("");
+  };
+
   return (
     <div className="topbar">
       
@@ -60,8 +144,10 @@ export default function TopBar() {
           className="icon-button"
           onClick={() => setOpenDropdown(openDropdown === "cart" ? null : "cart")}
         >
-          <FontAwesomeIcon icon={faShoppingCart} />
-          {cart.length > 0 && <span className="badge">{cart.length}</span>}
+          <div className="cart-icon-wrapper">
+            <FontAwesomeIcon icon={faShoppingCart} />
+            {cart.length > 0 && <span className="badge">{cart.length}</span>}
+          </div>
         </button>
         <span className="hover-name">Cart</span>
 
@@ -127,12 +213,70 @@ export default function TopBar() {
               <p className="user-phone">{user.phone || "No phone added"}</p>
             </div>
             <hr />
-            <p className="menu-item">Raise a Complaint</p>
-            <p className="menu-item">Feedback</p>
-            <p className="menu-item signout" onClick={() => { localStorage.clear(); window.location.reload(); }}>Sign Out</p>
+
+            <div className="menu-item" onClick={() => setShowComplaintBox(true)}>Raise a Complaint</div>
+            <div className="menu-item" onClick={() => setShowFeedbackBox(true)}>Feedback</div>
+            <div className="menu-item" onClick={() => setShowEmailBox(true)}>Change Email</div>
+            <div className="menu-item" onClick={() => setShowPasswordBox(true)}>Change Password</div>
+
+            <div 
+              className="menu-item signout" 
+              onClick={() => { 
+                localStorage.clear(); 
+                window.location.href = "/login"; 
+              }}
+            >
+              Sign Out
+            </div>
           </div>
         )}
       </div>
+
+      {/* MODALS */}
+      {showComplaintBox && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Raise Complaint</h3>
+            <textarea value={text} onChange={(e) => setText(e.target.value)} />
+            <button onClick={handleComplaintSubmit}>Submit</button>
+            <button onClick={() => setShowComplaintBox(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {showFeedbackBox && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Give Feedback</h3>
+            <textarea value={text} onChange={(e) => setText(e.target.value)} />
+            <button onClick={handleFeedbackSubmit}>Submit</button>
+            <button onClick={() => setShowFeedbackBox(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {showEmailBox && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Change Email</h3>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <button onClick={handleEmailUpdate}>Update</button>
+            <button onClick={() => setShowEmailBox(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {showPasswordBox && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Change Password</h3>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button onClick={handlePasswordUpdate}>Update</button>
+            <button onClick={() => setShowPasswordBox(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
