@@ -25,7 +25,7 @@ export default function FictionCategories() {
     if (!key) return;
     const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    fetch(`${API_URL}/books`)
+    fetch(`${API_URL}/api/books`)
       .then((res) => res.json())
       .then((data) => {
         const bookList = data.books || [];
