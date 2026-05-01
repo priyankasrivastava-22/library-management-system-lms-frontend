@@ -25,7 +25,6 @@ import "./App.css";
  * This checks the current URL path.**/
 
 const NavigationHandler = () => {
-  const location = useLocation();
 
   // Logic: Hide TopBar only on the root (Login) path
   if (location.pathname === "/") {

@@ -15,10 +15,8 @@ const displayName = (key) =>
 export default function NonFictionCategories() {
   const { category } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const key = (category || "").toLowerCase();
-  const normalizedKey = key.replace(/-/g, " "); 
   
   const [books, setBooks] = useState([]);
   const [issuedCount, setIssuedCount] = useState(0);
