@@ -41,10 +41,5 @@ pipeline {
         failure {
             echo "Frontend CI FAILED"
         }
-        success {
-            build job: 'frontend-cd'
-            }
         }
-    }
-
-    
+    }    
