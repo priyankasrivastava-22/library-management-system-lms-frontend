@@ -1,7 +1,6 @@
 // File: src/components/Dashboard.js
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import API_URL from '../config';
 import bgImage from "./image/bg.jpg";
 
 export default function Dashboard() {

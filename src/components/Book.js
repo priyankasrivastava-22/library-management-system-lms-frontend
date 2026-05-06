@@ -1,6 +1,5 @@
 // File: src/components/Book.js
 import React, { useState } from "react";
-import API_URL from '../config';
 import "./Book.css";
 
 const Book = ({ book, onAddToCart }) => {
