@@ -2,7 +2,6 @@
 
 import React from "react";
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import API_URL from './config';
 
 // Components
 import TopBar from "./components/TopBar";
