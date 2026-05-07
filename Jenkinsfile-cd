@@ -12,8 +12,8 @@ pipeline {
         stage('Fetch Artifacts') {
             steps {
                 copyArtifacts(
-                    projectName: 'LMS-FRONTEND-CI',   // your CI job name
-                    selector: lastSuccessful()
+                    projectName: 'student-frontend-ci',   //  CI job name
+                    selector: lastSuccessfulBuild()
                 )
             }
         }
