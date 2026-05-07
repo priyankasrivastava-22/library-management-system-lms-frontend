@@ -3,6 +3,7 @@ node_modules/
 
 # Build (production output)
 build/
+.env
 
 # Environment variables
 .env

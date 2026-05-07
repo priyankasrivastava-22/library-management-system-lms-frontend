@@ -4,38 +4,45 @@ pipeline {
     environment {
         IMAGE_NAME = "lms-frontend"
         CONTAINER_NAME = "lms-frontend-dev"
-        BACKEND_URL = "http://localhost:5000"
+        PORT = "3000"
     }
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Fetch Artifacts') {
             steps {
-                checkout scm
+                copyArtifacts(
+                    projectName: 'LMS-FRONTEND-CI',   // your CI job name
+                    selector: lastSuccessful()
+                )
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker Build') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh '''
+                docker build -t $IMAGE_NAME .
+                '''
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                sh '''
-                docker stop $CONTAINER_NAME || true
-                docker rm $CONTAINER_NAME || true
-                '''
+                sh 'docker stop $CONTAINER_NAME || true'
             }
         }
 
-        stage('Deploy New Container') {
+        stage('Remove Old Container') {
+            steps {
+                sh 'docker rm $CONTAINER_NAME || true'
+            }
+        }
+
+        stage('Deploy Container') {
             steps {
                 sh '''
-                docker run -d -p 3000:80 \
-                --name $CONTAINER_NAME \
-                $IMAGE_NAME
+                docker run -d -p $PORT:80 \
+                --name $CONTAINER_NAME $IMAGE_NAME
                 '''
             }
         }
@@ -43,8 +50,9 @@ pipeline {
         stage('UI Health Check') {
             steps {
                 sh '''
-                sleep 5
-                curl -f http://localhost:3000 || exit 1
+                echo "Checking UI..."
+                sleep 10
+                curl -f http://localhost:$PORT || exit 1
                 '''
             }
         }
@@ -52,29 +60,24 @@ pipeline {
         stage('UI Smoke Test') {
             steps {
                 sh '''
-                response=$(curl -s http://localhost:3000)
-                echo "$response" | grep "<html" || exit 1
+                curl -s http://localhost:$PORT | grep "<html" || exit 1
                 '''
             }
         }
 
-        stage('Frontend-Backend Integration') {
+        stage('Integration Check') {
             steps {
                 sh '''
-                echo "Checking backend connectivity..."
-
-                curl -f $BACKEND_URL/api/books || exit 1
+                echo "Checking backend API..."
+                curl -f http://localhost:5000/api/books || exit 1
                 '''
             }
         }
-    }
 
-    post {
-        success {
-            echo "Frontend CD SUCCESS"
-        }
-        failure {
-            echo "Frontend CD FAILED"
+        stage('Cleanup') {
+            steps {
+                sh 'docker image prune -f'
+            }
         }
     }
 }
