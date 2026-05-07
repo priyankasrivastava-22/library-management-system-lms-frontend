@@ -13,8 +13,7 @@ pipeline {
             steps {
                 copyArtifacts(
                     projectName: 'student-frontend-ci',   //  CI job name
-                    selector: lastSuccessfulBuild()
-                )
+                    selector: lastSuccessful()
             }
         }
 
