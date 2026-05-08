@@ -14,6 +14,7 @@ import NonFictionCategories from "./components/NonFictionCategories";
 import StudyPage from "./components/StudyPage";
 import StudyCategories from "./components/StudyCategories";
 import Book from "./components/Book";
+import Footer from "./components/Footer";
 
 import "./App.css";
 
@@ -37,22 +38,34 @@ const NavigationHandler = () => {
 function App() {
   return (
     <Router>
-      <NavigationHandler />
 
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+      <div className="app-container">
 
-        <Route path="/fiction" element={<FictionPage />} />
-        <Route path="/nonfiction" element={<NonFictionPage />} />
-        <Route path="/study" element={<StudyPage />} />
+        <NavigationHandler />
 
-        <Route path="/fiction/:category" element={<FictionCategories />} />
-        <Route path="/nonfiction/:category" element={<NonFictionCategories />} />
-        <Route path="/study/:category" element={<StudyCategories />} />
+        <div className="main-content">
 
-        <Route path="/:section/:category" element={<Book />} />
-      </Routes>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+
+            <Route path="/fiction" element={<FictionPage />} />
+            <Route path="/nonfiction" element={<NonFictionPage />} />
+            <Route path="/study" element={<StudyPage />} />
+
+            <Route path="/fiction/:category" element={<FictionCategories />} />
+            <Route path="/nonfiction/:category" element={<NonFictionCategories />} />
+            <Route path="/study/:category" element={<StudyCategories />} />
+
+            <Route path="/:section/:category" element={<Book />} />
+          </Routes>
+
+        </div>
+
+        <Footer />
+
+      </div>
+
     </Router>
   );
 }

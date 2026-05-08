@@ -14,11 +14,8 @@ export default function TopBar() {
   const CART_LIMIT = 5;
 
   // STATES
-  const [showComplaintBox, setShowComplaintBox] = useState(false);
-  const [showFeedbackBox, setShowFeedbackBox] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
   const [text, setText] = useState("");
-  const [showEmailBox, setShowEmailBox] = useState(false);
-  const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -71,7 +68,7 @@ export default function TopBar() {
     } catch (err) {
       console.log("Complaint error:", err);
     }
-    setShowComplaintBox(false);
+    setActiveModal(null);
     setText("");
   };
 
@@ -90,7 +87,7 @@ export default function TopBar() {
     } catch (err) {
       console.log("Feedback error:", err);
     }
-    setShowFeedbackBox(false);
+    setActiveModal(null);
     setText("");
   };
 
@@ -113,7 +110,7 @@ export default function TopBar() {
       console.log(err);
     }
 
-    setShowEmailBox(false);
+    setActiveModal(null);
     setEmail("");
   };
 
@@ -131,7 +128,7 @@ export default function TopBar() {
       console.log(err);
     }
 
-    setShowPasswordBox(false);
+    setActiveModal(null);
     setPassword("");
   };
 
@@ -214,10 +211,10 @@ export default function TopBar() {
             </div>
             <hr />
 
-            <div className="menu-item" onClick={() => setShowComplaintBox(true)}>Raise a Complaint</div>
-            <div className="menu-item" onClick={() => setShowFeedbackBox(true)}>Feedback</div>
-            <div className="menu-item" onClick={() => setShowEmailBox(true)}>Change Email</div>
-            <div className="menu-item" onClick={() => setShowPasswordBox(true)}>Change Password</div>
+            <div className="menu-item" onClick={() => setActiveModal("complaint")}>Raise a Complaint</div>
+            <div className="menu-item" onClick={() => setActiveModal("feedback")}>Feedback</div>
+            <div className="menu-item" onClick={() => setActiveModal("email")}>Change Email</div>
+            <div className="menu-item" onClick={() => setActiveModal("password")}>Change Password</div>
 
             <div 
               className="menu-item signout" 
@@ -233,46 +230,46 @@ export default function TopBar() {
       </div>
 
       {/* MODALS */}
-      {showComplaintBox && (
+      {activeModal === "complaint" && (
         <div className="modal-overlay">
           <div className="modal-box">
             <h3>Raise Complaint</h3>
             <textarea value={text} onChange={(e) => setText(e.target.value)} />
             <button onClick={handleComplaintSubmit}>Submit</button>
-            <button onClick={() => setShowComplaintBox(false)}>Close</button>
+            <button onClick={() => setActiveModal(null)}>Close</button>
           </div>
         </div>
       )}
 
-      {showFeedbackBox && (
+      {activeModal === "feedback" && (
         <div className="modal-overlay">
           <div className="modal-box">
             <h3>Give Feedback</h3>
             <textarea value={text} onChange={(e) => setText(e.target.value)} />
             <button onClick={handleFeedbackSubmit}>Submit</button>
-            <button onClick={() => setShowFeedbackBox(false)}>Close</button>
+            <button onClick={() => setActiveModal(null)}>Close</button>
           </div>
         </div>
       )}
 
-      {showEmailBox && (
+      {activeModal === "email" && (
         <div className="modal-overlay">
           <div className="modal-box">
             <h3>Change Email</h3>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <button onClick={handleEmailUpdate}>Update</button>
-            <button onClick={() => setShowEmailBox(false)}>Close</button>
+            <button onClick={() => setActiveModal(null)}>Close</button>
           </div>
         </div>
       )}
 
-      {showPasswordBox && (
+      {activeModal === "password" && (
         <div className="modal-overlay">
           <div className="modal-box">
             <h3>Change Password</h3>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button onClick={handlePasswordUpdate}>Update</button>
-            <button onClick={() => setShowPasswordBox(false)}>Close</button>
+            <button onClick={() => setActiveModal(null)}>Close</button>
           </div>
         </div>
       )}

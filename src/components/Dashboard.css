@@ -2,12 +2,25 @@
 /* Dashboard container */
 .dashboard-container {
   position: relative;
-  min-height: 100vh;
+
+  height: calc(100vh - 70px);
+
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+
   font-family: Arial, sans-serif;
-  padding-top: 50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   text-align: center;
+
+  padding: 20px;
+
+  box-sizing: border-box;
 }
 
 /* Top-right icons */
@@ -33,24 +46,27 @@
 
 /* Welcome text */
 .welcome-text {
-  font-size: 48px;
+  font-size: 42px;
   font-weight: bold;
   color: #fff;
   text-shadow: 2px 2px 8px #000;
-  margin-bottom: 50px;
+
+  margin-bottom: 40px;
+  margin-top: 0;
 }
 
 /* Boxes container */
 .boxes-container {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 30px;
+  flex-wrap: wrap;
 }
 
 /* Book boxes */
 .book-box {
-  width: 180px;
-  height: 220px;
+  width: 170px;
+  height: 200px;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
