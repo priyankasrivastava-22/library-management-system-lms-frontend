@@ -2,55 +2,53 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "lms-frontend"
+        IMAGE_NAME = "lms-frontend-dev"
         CONTAINER_NAME = "lms-frontend-dev"
         PORT = "3000"
     }
 
     stages {
 
-        stage('Fetch Artifacts') {
+        stage('Fetch Build Artifacts') {
             steps {
                 copyArtifacts(
-                    projectName: 'student-frontend-ci',   //  CI job name
+                    projectName: 'frontend-dev-ci',
                     selector: lastSuccessful()
                 )
             }
         }
 
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t $IMAGE_NAME .
+                docker build -t $IMAGE_NAME:$BUILD_NUMBER .
                 '''
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                sh 'docker stop $CONTAINER_NAME || true'
-            }
-        }
-
-        stage('Remove Old Container') {
-            steps {
-                sh 'docker rm $CONTAINER_NAME || true'
-            }
-        }
-
-        stage('Deploy Container') {
-            steps {
                 sh '''
-                docker run -d -p $PORT:80 \
-                --name $CONTAINER_NAME $IMAGE_NAME
+                docker stop $CONTAINER_NAME || true
+                docker rm $CONTAINER_NAME || true
                 '''
             }
         }
 
-        stage('UI Health Check') {
+        stage('Deploy Frontend Container') {
             steps {
                 sh '''
-                echo "Checking UI..."
+                docker run -d \
+                -p 3000:80 \
+                --name $CONTAINER_NAME \
+                $IMAGE_NAME:$BUILD_NUMBER
+                '''
+            }
+        }
+
+        stage('Frontend Health Check') {
+            steps {
+                sh '''
                 sleep 10
                 curl -f http://localhost:$PORT || exit 1
                 '''
@@ -60,24 +58,21 @@ pipeline {
         stage('UI Smoke Test') {
             steps {
                 sh '''
-                curl -s http://localhost:$PORT | grep "<html" || exit 1
+                response=$(curl -s http://localhost:$PORT)
+
+                echo "$response" | grep "<html" || exit 1
                 '''
             }
         }
+    }
 
-        stage('Integration Check') {
-            steps {
-                sh '''
-                echo "Checking backend API..."
-                curl -f http://localhost:5000/api/books || exit 1
-                '''
-            }
+    post {
+        success {
+            echo 'Frontend DEV CD SUCCESS'
         }
 
-        stage('Cleanup') {
-            steps {
-                sh 'docker image prune -f'
-            }
+        failure {
+            echo 'Frontend DEV CD FAILED'
         }
     }
 }

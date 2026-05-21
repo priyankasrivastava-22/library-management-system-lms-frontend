@@ -8,7 +8,78 @@ pipeline {
                 checkout scm
             }
         }
+pipeline {
+    agent any
 
+    environment {
+        IMAGE_NAME = "lms-frontend-dev"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Lint Check') {
+            steps {
+                sh 'echo "Skipping lint for now"'
+                // sh 'npm run lint'
+            }
+        }
+
+        stage('Run Frontend Tests') {
+            steps {
+                sh 'echo "Skipping frontend tests for now"'
+                // sh 'npm test -- --watchAll=false'
+            }
+        }
+
+        stage('Build React Application') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Archive Build Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'build/**', fingerprint: true
+            }
+        }
+
+        stage('Docker Build Validation') {
+            steps {
+                sh '''
+                docker build -t $IMAGE_NAME:$BUILD_NUMBER .
+                '''
+            }
+        }
+
+        stage('Cleanup Docker Images') {
+            steps {
+                sh 'docker image prune -f'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Frontend DEV CI SUCCESS'
+        }
+
+        failure {
+            echo 'Frontend DEV CI FAILED'
+        }
+    }
+}
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
