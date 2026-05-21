@@ -8,8 +8,10 @@
 .fiction-container {
   background: url("./image/dashboard-bg.jpg") no-repeat center center fixed;
   background-size: cover; /* Cover entire page */
-  min-height: 100vh; /* Full viewport height */
+  min-height: calc(100vh - 160px);
+  overflow-y: auto; /* Full viewport height */
   padding: 20px;
+  padding-bottom: 40px;
   color: white;
   font-family: Arial, sans-serif;
   position: relative;
@@ -144,7 +146,7 @@
 }
 
 /* Left categories list */
-.fiction-left-categories ul {
+.fiction-left-categories {
   list-style: none;
   padding: 0;
 }
