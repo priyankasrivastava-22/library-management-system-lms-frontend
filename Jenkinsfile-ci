@@ -1,16 +1,6 @@
 pipeline {
     agent any
 
-    stages {
-
-        stage('Checkout Code') {
-            steps {
-                checkout scm
-            }
-        }
-pipeline {
-    agent any
-
     environment {
         IMAGE_NAME = "lms-frontend-dev"
     }
