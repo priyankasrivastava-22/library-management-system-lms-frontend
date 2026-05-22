@@ -12,7 +12,7 @@ pipeline {
         stage('Fetch Build Artifacts') {
             steps {
                 copyArtifacts(
-                    projectName: 'frontend-dev-ci',
+                    projectName: 'student-frontend-ci',
                     selector: lastSuccessful()
                 )
             }
