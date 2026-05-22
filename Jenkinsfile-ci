@@ -67,9 +67,9 @@ pipeline {
 
         failure {
             echo 'Frontend DEV CI FAILED'
+            }
         }
     }
-}
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -93,7 +93,6 @@ pipeline {
                 archiveArtifacts artifacts: 'build/**', fingerprint: true
             }
         }
-    }
 
     post {
         success {
@@ -102,5 +101,4 @@ pipeline {
         failure {
             echo "Frontend CI FAILED"
         }
-        }
-    }    
+     }   
