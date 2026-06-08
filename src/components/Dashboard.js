@@ -71,7 +71,7 @@ export default function Dashboard() {
             paddingLeft: "40px",
           }}
         >
-          Welcome to the Library
+          Welcome to the Patron
         </div>
 
         {/* right side navigation circles */}
