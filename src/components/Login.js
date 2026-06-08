@@ -122,7 +122,7 @@ export default function Login() {
       >
         {/* left text */}
         <div style={{ color: "white", fontSize: "48px", marginLeft: "150px" }}>
-          Welcome to the Library
+          Welcome to the Patron
         </div>
 
         {/* right side */}
